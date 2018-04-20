@@ -44,6 +44,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-plugin-external-helpers": "*",
     "chromedriver": "^2.35.0",
     "eslint": "^4.11.0",
     "eslint-config-google": "^0.9.1",
