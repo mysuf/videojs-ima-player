@@ -23,7 +23,6 @@ class Ima extends Tech {
 		this.width = 0;
 		this.heght = 0;
 		this.screenMode = "";
-		this.adBreakReadyEvent = null;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
@@ -50,7 +49,6 @@ class Ima extends Tech {
 			nonLinearHeight: 0,
 			adWillAutoPlay: false,
 			adWillAutoMuted: false,
-			adsManagerLoadedCallback: null,
 			showCountdown: true,
 			adsRenderingSettings: {
 				loadVideoTimeout: 5000
@@ -249,7 +247,6 @@ class Ima extends Tech {
 		this.muted_ = false;
 		this.ended_ = false;
 		this.paused_ = false;
-		this.adBreakReadyEvent = null;
 		this.contentTracker.previousTime = 0;
 		this.contentTracker.currentTime = 0;
 		this.contentTracker.duration = 0;
@@ -374,7 +371,7 @@ class Ima extends Tech {
 		// additional events retriggered to ima player
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_BREAK_READY,
-			this.onAdBreakReady.bind(this));
+			this.onAdEvent.bind(this, null));
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_METADATA,
 			this.onAdEvent.bind(this, null));
@@ -406,15 +403,7 @@ class Ima extends Tech {
 			google.ima.AdEvent.Type.USER_CLOSE,
 			this.onAdEvent.bind(this, null));
 
-		if (!this.autoplay()) {
-			this.initAdsManager();
-		}
-
 		this.triggerReady();
-
-		if (typeof this.source.adsManagerLoadedCallback === "function") {
-			this.source.adsManagerLoadedCallback();
-		}
 	}
 
 	initAdsManager() {
@@ -438,9 +427,6 @@ class Ima extends Tech {
 
 		if (!this.hasStarted_) {
 			this.triggerHasStartedEvents();
-			if (this.autoplay()) {
-				this.initAdsManager();
-			}
 		}
 
 		try {
@@ -464,16 +450,8 @@ class Ima extends Tech {
 
 	preroll() {
 		this.contentHasStarted_ = true;
-		if (this.autoplay()) {
-			this.play();
-			return;
-		} 
-
-		// dispatch adBreakReady to player
-		if (this.adBreakReadyEvent) {
-			this.onAdEvent(null, this.adBreakReadyEvent);
-			this.adBreakReadyEvent = null;
-		}
+		this.initAdsManager();
+		this.autoplay() && this.play() || ''; 
 	}
 
 	postroll() {
@@ -606,17 +584,6 @@ class Ima extends Tech {
 
 	onContentCompleted() {
 		this.adsLoader && this.adsLoader.contentComplete()||'';
-	}
-
-	onAdBreakReady(e) {
-		// throttle first adBreakReady call when content wasnt started yet
-		if (!this.autoplay() && !this.contentHasStarted_) {
-			// store adBreakReadyEvent for future preroll call
-			this.adBreakReadyEvent = e;
-			return;
-		}
-
-		this.onAdEvent(null, e);
 	}
 
 	onAdEvent(callback, e) {
