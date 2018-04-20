@@ -1,0 +1,32 @@
+
+<html>
+  <head>
+    <title>Video.js Test</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../../node_modules/video.js/dist/video-js.min.css">
+    <link rel="stylesheet" href="../../node_modules/videojs-contrib-ads/dist/videojs.ads.css" />
+    <link rel="stylesheet" href="../../dist/videojs.ima.css" />
+  </head>
+
+  <body>
+    <div id="ima-sample-container">
+      <div id="ima-sample-videoplayer">
+        <video id="content_video" class="video-js vjs-default-skin"
+            poster = "../posters/bbb_poster.jpg" controls preload="auto" width="640"
+            height="360">
+          <source src="//commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              type="video/mp4" ></source>
+        </video>
+      </div>
+      <p><button type="button" id="play-ad">Play Ad!</button></p>
+      <div id="ima-sample-console">
+        Welcome to IMA HTML5 SDK Demo!
+      </div>
+    </div>
+    <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="../../node_modules/video.js/dist/video.js"></script>
+    <script src="../../node_modules/videojs-contrib-ads/dist/videojs.ads.js"></script>
+    <script src="../../dist/videojs.ima.js"></script>
+    <script src="ads.js"></script>
+  </body>
+</html>
