@@ -35,7 +35,10 @@ for (var index = 0; index < events.length; index++) {
 function onAdEvent(event) {
   var message = 'Ad event: ' + event.type;
   imaConsole.innerHTML = imaConsole.innerHTML + '<br/>' + message;
-  if (event.type === google.ima.AdEvent.Type.AD_BREAK_READY) {
-    player.ima.play();
-  }
 };
+
+player.ima.on(google.ima.AdEvent.Type.AD_BREAK_READY, function() {
+  player.ima.play();
+});
+
+

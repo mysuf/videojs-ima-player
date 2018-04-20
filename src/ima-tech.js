@@ -23,6 +23,7 @@ class Ima extends Tech {
 		this.width = 0;
 		this.heght = 0;
 		this.screenMode = "";
+		this.adBreakReadyEvent = null;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
@@ -137,31 +138,27 @@ class Ima extends Tech {
 	play() {
 		// state order dispatching
 		if (!this.isReady_) {
-			console.warn('Ads warning: ads not ready to play yet.')
+			console.warn('Ads warning: ads not ready to play yet.');
 			return;
 		}
 
 		if (!this.adsManager || this.ended()) {
-			console.warn('No ads.')
+			console.warn('Ads warning: No ads.');
 			return;
 		}
 
-		if (!this.hasStarted_) {
-			this.triggerHasStartedEvents();
-			if (this.autoplay()) {
-				this.initAdsManager();
-				this.start();
-				return;
-			}
+		if (!this.contentHasStarted_) {
+			console.warn('Ads warning: content must be playing.');
+			return;
+		}
+
+		if (!this.hasStarted_ || !this.autoplay()) {
+			this.start();
+			return;
 		}
 
 		if (this.isLinearAd() && this.paused()) {
 			this.adsManager.resume();
-			return;
-		}
-
-		if (!this.currentAd && !this.autoplay() && this.contentHasStarted_) {
-			this.start();
 			return;
 		}
 	}
@@ -252,6 +249,7 @@ class Ima extends Tech {
 		this.muted_ = false;
 		this.ended_ = false;
 		this.paused_ = false;
+		this.adBreakReadyEvent = null;
 		this.contentTracker.previousTime = 0;
 		this.contentTracker.currentTime = 0;
 		this.contentTracker.duration = 0;
@@ -376,7 +374,7 @@ class Ima extends Tech {
 		// additional events retriggered to ima player
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_BREAK_READY,
-			this.onAdEvent.bind(this, null));
+			this.onAdBreakReady.bind(this));
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_METADATA,
 			this.onAdEvent.bind(this, null));
@@ -433,6 +431,18 @@ class Ima extends Tech {
 	}
 
 	start() {
+		if (this.currentAd) {
+			console.war('Ad warning: ad is already playing');
+			return;
+		}
+
+		if (!this.hasStarted_) {
+			this.triggerHasStartedEvents();
+			if (this.autoplay()) {
+				this.initAdsManager();
+			}
+		}
+
 		try {
 			this.adsManager.start();
 		} catch(e) {
@@ -456,6 +466,13 @@ class Ima extends Tech {
 		this.contentHasStarted_ = true;
 		if (this.autoplay()) {
 			this.play();
+			return;
+		} 
+
+		// dispatch adBreakReady to player
+		if (this.adBreakReadyEvent) {
+			this.onAdEvent(null, this.adBreakReadyEvent);
+			this.adBreakReadyEvent = null;
 		}
 	}
 
@@ -589,6 +606,17 @@ class Ima extends Tech {
 
 	onContentCompleted() {
 		this.adsLoader && this.adsLoader.contentComplete()||'';
+	}
+
+	onAdBreakReady(e) {
+		// throttle first adBreakReady call when content wasnt started yet
+		if (!this.autoplay() && !this.contentHasStarted_) {
+			// store adBreakReadyEvent for future preroll call
+			this.adBreakReadyEvent = e;
+			return;
+		}
+
+		this.onAdEvent(null, e);
 	}
 
 	onAdEvent(callback, e) {
