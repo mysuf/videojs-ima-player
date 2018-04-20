@@ -296,7 +296,7 @@ class Ima extends Tech {
 		this.adsLoader.getSettings().setVpaidMode(this.source.vpaidMode);
 		this.adsLoader.getSettings().setLocale(this.source.locale);
 		this.adsLoader.getSettings().setNumRedirects(this.source.numRedirects);
-		this.adsLoader.getSettings().setPlayerType('videojs-ima');
+		this.adsLoader.getSettings().setPlayerType('videojs-ima-player');
 		this.adsLoader.getSettings().setPlayerVersion(pkg.version);
 		this.adsLoader.getSettings().setAutoPlayAdBreaks(this.source.autoPlayAdBreaks);
 
