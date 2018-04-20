@@ -54,7 +54,6 @@ npm install videojs-ima-player
 | adLabel                | string       | Replaces the "Advertisement" text in the ad label. Added for multilingual UI support. |
 | adsRenderingSettings   | object       | JSON object with ads rendering settings as defined in the IMA SDK,Docs(1). |
 | autoPlayAdBreaks       | boolean      | Whether or not to automatically play VMAP or ad rules ad breaks. Defaults,to true. |
-| **deprecated** adWillPlayMuted        | boolean      | Notifies the SDK whether the player intends to start ad while muted. Changing this setting will have no impact on ad playback. Defaults,to false. |
 | contribAdsSettings     | object       | Additional settings to be passed to the contrib-ads plugin(2), used by,this IMA plugin. |
 | debug                  | boolean      | True to load the debug version of the plugin, false to load the non-debug version.,Defaults to false. |
 | disableFlashAds        | boolean      | True to disable Flash ads - Flash ads will be considered an unsupported ad type. Defaults to false. |
@@ -65,6 +64,7 @@ npm install videojs-ima-player
 | nonLinearWidth         | number       | Desired width of non-linear ads. Defaults to player width. |
 | nonLinearHeight        | number       | Desired height for non-linear ads. Defaults to 1/3 player height. |
 | numRedirects           | number       | Maximum number of VAST redirects before the subsequent redirects will be denied,,and the ad load aborted. The number of redirects directly affects latency and thus user experience.,This applies to all VAST wrapper ads. |
+| ofLabel                | string       | Replaces the "of" text in the ad label. Added for multilingual UI support. |
 | showControlsForJSAds   | boolean      | Whether or not to show the control bar for VPAID JavaScript ads. Defaults to true. |
 | showCountdown          | boolean      | Whether or not to show the ad countdown timer. Defaults to true. |
 | vpaidAllowed           | boolean      | (DEPRECATED, please use vpaidMode). |
