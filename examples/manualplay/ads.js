@@ -32,16 +32,10 @@ for (var index = 0; index < events.length; index++) {
   player.ima.on(events[index], onAdEvent);
 }
 
-var playAd = document.getElementById('play-ad');
-playAd.onclick = player.ima.play.bind(player.ima);
-
 function onAdEvent(event) {
   var message = 'Ad event: ' + event.type;
   imaConsole.innerHTML = imaConsole.innerHTML + '<br/>' + message;
   if (event.type === google.ima.AdEvent.Type.AD_BREAK_READY) {
-    playAd.disabled = false;
-  }
-  if (event.type === google.ima.AdEvent.Type.LOADED) {
-    playAd.disabled = true;
+    player.ima.play();
   }
 };
