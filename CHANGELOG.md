@@ -1,3 +1,7 @@
+## 0.1.7
+
+* npm version
+
 ## 0.1.6
 
 * added videojs v5 support
