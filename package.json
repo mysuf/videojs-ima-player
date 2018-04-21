@@ -21,7 +21,9 @@
     "pretest": "npm run rollup",
     "start": "npm run devServer",
     "test": "npm-run-all test:*",
-    "test:vjs6": "npm install video.js@6 --no-save && npm-run-all -p -r testServer webdriver",
+    "test:vjs5last": "npm install video.js@5.20.5 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs6first": "npm install video.js@6.0.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs6latest": "npm install video.js@latest --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
     "testServer": "http-server --cors -p 8000 --silent",
     "webdriver": "mocha test/webdriver/*.js --no-timeouts"
   },
@@ -39,7 +41,7 @@
   "dependencies": {
     "can-autoplay": "^3.0.0",
     "video.js": "^6",
-    "videojs-contrib-ads": "^6.0.1"
+    "videojs-contrib-ads": "^6.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
