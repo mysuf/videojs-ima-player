@@ -1,3 +1,7 @@
+## 0.1.
+
+* added v5 volumebar
+
 ## 0.1.7
 
 * npm version
