@@ -7,10 +7,8 @@ Uses IMA SDK library to parse VAST/VPAID tag and manage ads.
 
 ## Features
 - uses native videojs UI for ad playback
+- supports videojs v5 and v6
 - is easy to use
-
-## Limitations
-- supports only videojs v6
 
 ```
 npm install videojs-ima-player
