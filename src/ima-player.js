@@ -17,6 +17,10 @@ class ImaPlayer extends Player {
 		options.src = options.adTagUrl||options.adsResponse||'placeholder';
 		options.type = 'video/ima';
 
+		// volumeMenuButton as v5 fallback
+		const volumePanel = videojs.getComponent('volumePanel') ? 
+			'volumePanel' : 'volumeMenuButton'
+
 		// sets basic player
 		// passes src placeholder to tech
 		// sets customized remaining time component
@@ -31,7 +35,7 @@ class ImaPlayer extends Player {
 				},
 				children: [
 					'playToggle',
-					'volumePanel',
+					volumePanel,
 					'imaRemainingTimeDisplay',
 					'progressControl',
 					'customControlSpacer',
