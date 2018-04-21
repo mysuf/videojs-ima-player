@@ -7,8 +7,12 @@ Uses IMA SDK library to parse VAST/VPAID tag and manage ads.
 
 ## Features
 - uses native videojs UI for ad playback
-- supports videojs v5 and v6
 - is easy to use
+
+## Requirements
+- IMA SDK js binary loaded
+- videojs v5 or v6 loaded
+- videojs-contrib-ads v6 loaded
 
 ```
 npm install videojs-ima-player
@@ -69,7 +73,7 @@ npm install videojs-ima-player
 | vpaidMode              | VpaidMode(4) | VPAID Mode. Defaults to ENABLED. This setting,overrides vpaidAllowed. |
 
 
-(1) [IMA SDK Docs](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdsRenderingSettings)
+(1) [IMA SDK Docs](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis)
 <br />
 (2) [contrib-ads plugin](//github.com/videojs/videojs-contrib-ads)
 <br />
