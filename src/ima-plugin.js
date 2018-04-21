@@ -1,8 +1,9 @@
 
 import './ima-player.js';
 
+const registerPlugin = videojs.registerPlugin || videojs.plugin;
 // basic plugin is enough for this purpose
-videojs.registerPlugin('ima', function(options) {
+registerPlugin('ima', function(options) {
 	// inits contrib-ads asap
 	this.ads(Object.assign({
 		debug: options.debug||false,

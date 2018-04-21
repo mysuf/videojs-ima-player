@@ -611,4 +611,5 @@ Ima.canPlayType = function(source) {
 	return source && source.type === 'video/ima';
 }
 
-videojs.registerTech('Ima', Ima);
+const registerTech  = videojs.registerTech || videojs.registerComponent;
+registerTech('Ima', Ima);
