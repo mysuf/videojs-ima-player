@@ -150,13 +150,13 @@ class Ima extends Tech {
 			return;
 		}
 
-		if (!this.hasStarted_ || !this.autoplay()) {
-			this.start();
+		if (this.isLinearAd() && this.paused()) {
+			this.adsManager.resume();
 			return;
 		}
 
-		if (this.isLinearAd() && this.paused()) {
-			this.adsManager.resume();
+		if (!this.hasStarted_ || !this.autoplay()) {
+			this.start();
 			return;
 		}
 	}
