@@ -1,4 +1,8 @@
-## 0.1.
+## 0.1.9
+
+* prevented ads-loading spinner from content player
+
+## 0.1.8
 
 * added v5 volumebar
 
