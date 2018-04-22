@@ -8,6 +8,9 @@
 .vjs-error .vjs-ima.vjs-controls-enabled .vjs-control-bar {
 	display: flex !important;
 }
+.vjs-ad-loading .vjs-ima:not(.vjs-waiting) .vjs-loading-spinner {
+	display: none;
+}
 .vjs-ima {
 	position: absolute !important;
 	top: 0 !important;

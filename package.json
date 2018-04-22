@@ -40,7 +40,7 @@
   ],
   "dependencies": {
     "can-autoplay": "^3.0.0",
-    "video.js": "^6",
+    "video.js": "^5.19.2 || ^6",
     "videojs-contrib-ads": "^6.1.0"
   },
   "devDependencies": {
