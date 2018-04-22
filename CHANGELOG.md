@@ -1,3 +1,7 @@
+## 0.2.0
+
+* fixed wrong order of tech's play method
+
 ## 0.1.9
 
 * prevented ads-loading spinner from content player
