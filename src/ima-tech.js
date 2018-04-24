@@ -547,6 +547,9 @@ class Ima extends Tech {
 	}
 
 	onAdSkipped() {
+		if (this.paused()) {
+			this.onAdResumed();
+		}
 		this.onAdComplete();
 	}
 
