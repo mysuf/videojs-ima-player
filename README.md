@@ -91,7 +91,6 @@ Usage: `player.ima.on(...)`/`player.ima.off(...)`
 | ofLabel                | string       | Replaces the "of" text in the ad label. Added for multilingual UI support. |
 | showControlsForJSAds   | boolean      | Whether or not to show the control bar for VPAID JavaScript ads. Defaults to true. |
 | showCountdown          | boolean      | Whether or not to show the ad countdown timer. Defaults to true. |
-| vpaidAllowed           | boolean      | (DEPRECATED, please use vpaidMode). |
 | vpaidMode              | VpaidMode(4) | VPAID Mode. Defaults to ENABLED. This setting,overrides vpaidAllowed. |
 
 

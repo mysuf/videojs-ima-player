@@ -47,6 +47,10 @@
 }
 
 .vjs-ima .vjs-remaining-time {
+	position: static !important;;
+}
+
+.vjs-ima .vjs-remaining-time:not(.vjs-hidden) {
 	display: block !important;
 }
 
@@ -58,6 +62,17 @@
 	opacity: 1 !important;
 	pointer-events: none !important;
 	background-color: transparent !important;
+}
+
+
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-remaining-time:before {
+	content: '' !important;;
+	position: absolute !important;;
+	z-index: -1 !important;;
+	top: 0 !important;
+	left: 0 !important;;
+	right: 0 !important;;
+	bottom: 0 !important;;
 	background-image: radial-gradient(350px 3em at bottom left, rgba(43,51,63,.7), transparent) !important;
 }
 

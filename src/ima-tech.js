@@ -41,7 +41,6 @@ class Ima extends Tech {
 			numRedirects: gis.getNumRedirects(),
 			autoPlayAdBreaks: true,
 			vpaidMode: google.ima.ImaSdkSettings.VpaidMode.ENABLED,
-			vpaidAllowed: true,
 			adTagUrl: '',
 			adsResponse: '',
 			forceNonLinearFullSlot: false,
@@ -54,8 +53,6 @@ class Ima extends Tech {
 				loadVideoTimeout: 5000
 			},
 		}, options);
-		source.vpaidMode = !source.vpaidAllowed ? 
-			google.ima.ImaSdkSettings.VpaidMode.DISABLED : source.vpaidMode;
 
 		// Set SDK settings from plugin settings.
 		/* eslint no-undef: 'error' */

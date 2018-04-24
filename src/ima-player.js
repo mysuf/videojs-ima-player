@@ -70,6 +70,7 @@ class ImaPlayer extends Player {
 		this.isMobile = videojs.browser.IS_IOS || videojs.browser.IS_ANDROID;
 		if (this.isMobile) this.addClass('vjs-ima-mobile');
 
+		this.setRemainingTimeVisibility();
 		this.trackContentEvents();
 
 		// wait a tick to get content info
@@ -187,6 +188,14 @@ class ImaPlayer extends Player {
 		}
 	}
 
+	setRemainingTimeVisibility() {
+		if (this.imaOptions.showCountdown === false) {
+			this.controlBar.imaRemainingTimeDisplay.hide();
+			return;
+		}
+		this.controlBar.imaRemainingTimeDisplay.show()
+	}
+
 	/* THESE METHODS HANDLES CONTENT PLAYER */
 
 	handleContentReadyForPreroll_() {
@@ -205,6 +214,7 @@ class ImaPlayer extends Player {
 		this.setContentPlayerToDefault();
 		this.contentEnded = false;
 		this.src(this.imaOptions);
+		this.setRemainingTimeVisibility();
 	}
 
 	handleContentTimeUpdate_() {
