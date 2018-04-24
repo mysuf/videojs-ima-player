@@ -48,12 +48,14 @@ npm install videojs-ima-player
 </html>
 ```
 
+## Playlist, quality switcher, etc.
+If player source is changed, it reinitialize IMA SDK and play ads again. To prevent this behaviour (i.e. switching quality), 
+you have to set ``player.ads.contentSrc="new-source.mp4"`` before calling ``player.src("new-source.mp4")``.
+
 ## Methods (bound to player.ima)
 
 **`updateOptions({options})`** -- sets new IMA options. This options is applied once content player source is changed. 
-To prevent contrib-ads trigger contentchanged (i.e. switching quality), 
-you have to set ``player.ads.contentSrc="new-source.mp4"`` before calling ``player.src("new-source.mp4")``. Set ``fullReset: true``, 
-if you are going to change one of these settings: ``vpaidMode``, ``numRedirects``, ``autoPlayAdBreaks``, ``locale``
+Set ``fullReset: true``, if you are going to change one of these settings: ``vpaidMode``, ``numRedirects``, ``autoPlayAdBreaks``, ``locale``.
 
 **`play()`** -- call this method to play ad only when autoPlayAdBreaks is set to false and adBreakReady occurs. Otherwise resumes paused ad.
 
