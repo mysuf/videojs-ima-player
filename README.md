@@ -67,6 +67,8 @@ Set ``fullReset: true``, if you are going to change one of these settings: ``vpa
 
 [additional IMA SDK events](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type)
 
+Usage: `player.ima.on(...)`/`player.ima.off(...)`
+
 ## Settings
 
 | Settings | Type | Description |
