@@ -1,3 +1,7 @@
+## 0.2.1
+
+* reset playToggle when ad skipped when paused
+
 ## 0.2.0
 
 * fixed wrong order of tech's play method
