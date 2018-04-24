@@ -1,5 +1,9 @@
 ## 0.2.1
 
+* added showCountdown feature, removed allowVpaid option
+
+## 0.2.1
+
 * reset playToggle when ad skipped when paused
 
 ## 0.2.0
