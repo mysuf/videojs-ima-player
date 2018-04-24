@@ -64,6 +64,7 @@ Set ``fullReset: true``, if you are going to change one of these settings: ``vpa
 
 ## Events (bound to player.ima)
 [videojs's Player events](https://docs.videojs.com/player#event:beforepluginsetup:$name)
+
 [additional IMA SDK events](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type)
 
 ## Settings
