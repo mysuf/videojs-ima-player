@@ -1,3 +1,7 @@
+## 0.2.31
+
+* npm version
+
 ## 0.2.3
 
 * fixed remainingTime layer index
