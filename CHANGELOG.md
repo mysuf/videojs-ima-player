@@ -1,3 +1,8 @@
+## 0.2.5
+
+* implemented isWaitingForAdBreak() method
+* updated contrib-ads dependency 
+
 ## 0.2.4
 
 * npm version

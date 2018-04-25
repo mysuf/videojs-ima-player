@@ -11,8 +11,8 @@ Uses IMA SDK library to parse VAST/VPAID tag and manage ads.
 
 ## Requirements
 - IMA SDK js binary loaded
-- videojs v5.19.2 and greater(including v6) loaded
-- videojs-contrib-ads v6 loaded
+- videojs >= v5.19.2(including v6) loaded
+- videojs-contrib-ads >= v6.2.0 loaded
 
 ## Installation
 ```
@@ -37,8 +37,8 @@ npm install videojs-ima-player
     </video>
     <!-- Load order dependent scripts -->
     <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="/path/to/video.v5.or.v6.js"></script>
-    <script src="/path/to/videojs-contrib-ads.v6.js"></script>
+    <script src="/path/to/video.v5.19.2.and.later.js"></script>
+    <script src="/path/to/videojs-contrib-ads.v6.2.0.and.later.js"></script>
     <script src="/path/to/videojs.ima.js"></script>
     <script>
       var player = videojs("content_video");

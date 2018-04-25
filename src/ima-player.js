@@ -319,11 +319,8 @@ class ImaPlayer extends Player {
 	// instead of build-in IMA SDK contentResumeRequested logic
 
 	onNoPreroll() {
-		// IMA SDK triggers contentResumeRequested when no preroll/postroll
-		// contrib-ads are missing check for adtimeout window
-		// this is stupid but no way atm
 		if (this.contentPlayer.hasStarted()) {
-			if (this.contentPlayer.hasClass('vjs-ad-loading')) {
+			if (this.contentPlayer.ads.isWaitingForAdBreak()) {
 				this.contentPlayer.ads.skipLinearAdMode();
 			}
 			return;
