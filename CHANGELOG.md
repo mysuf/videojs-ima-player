@@ -1,4 +1,8 @@
-## 0.2.1
+## 0.2.3
+
+* fixed remainingTime layer index
+
+## 0.2.2
 
 * added showCountdown feature, removed allowVpaid option
 
