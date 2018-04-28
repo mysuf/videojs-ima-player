@@ -136,7 +136,7 @@ class ImaPlayer extends Player {
 		this.on(this.contentPlayer, ['resize', 'fullscreenchange'], this.handleContentResize_);
 		this.on(this.contentPlayer, 'contentchanged', this.handleContentChanged_);
 		this.on(this.contentPlayer, 'readyforpreroll', this.handleContentReadyForPreroll_);
-		this.on(this.contentPlayer, 'contentended', this.handleContentReadyForPostroll_);
+		this.on(this.contentPlayer, 'readyforpostroll', this.handleContentReadyForPostroll_);
 	}
 
 	trackImaEvents() {
