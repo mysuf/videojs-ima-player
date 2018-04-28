@@ -97,11 +97,12 @@ class Ima extends Tech {
 			return;
 		}
 
-		if (!init) this.reset();
+		this.source = this.mergeWithDefaults(source);
 
+		!init ? this.reset() : '';
 		this.trigger('loadstart'); // resets player classes
 
-		if (!source.adTagUrl && !source.adResponse) {
+		if (!this.source.adTagUrl && !this.source.adResponse) {
 			// if no ads are provided we left tech reseted
 			// and let content know that no ads will be played
 			init ? this.triggerReady() : '';
@@ -111,10 +112,7 @@ class Ima extends Tech {
 
 		this.isReady_ = false;
 		this.trigger('waiting');
-		this.source = this.mergeWithDefaults(source);
-		if (!this.adsLoader) {
-			this.initAdContainer();
-		}
+		!this.adsLoader ? this.initAdContainer() : '';
 		this.requestAds();
 	}
 
@@ -274,6 +272,7 @@ class Ima extends Tech {
 	}
 
 	initAdContainer() {
+		console.log(this.contentMediaElement)
 		this.adDisplayContainer = new google.ima.AdDisplayContainer(this.el_, this.contentMediaElement);
 		this.setAdsLoader();
 	}
