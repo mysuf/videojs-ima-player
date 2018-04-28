@@ -16,7 +16,6 @@ class Ima extends Tech {
 
 		this.currentAd = null;
 		this.source = options.source;
-		this.contentMediaElement = null;
 		this.adDisplayContainer = null;
 		this.adsLoader = null;
 		this.adsManager = null;
@@ -97,24 +96,21 @@ class Ima extends Tech {
 			return;
 		}
 
+		this.source = this.mergeWithDefaults(source);
 		if (!init) this.reset();
-
 		this.trigger('loadstart'); // resets player classes
 
-		if (!source.adTagUrl && !source.adResponse) {
+		if (!this.source.adTagUrl && !this.source.adResponse) {
 			// if no ads are provided we left tech reseted
 			// and let content know that no ads will be played
-			init ? this.triggerReady() : '';
+			if (init) this.triggerReady();
 			this.trigger('noads');
 			return;
 		}
 
 		this.isReady_ = false;
 		this.trigger('waiting');
-		this.source = this.mergeWithDefaults(source);
-		if (!this.adsLoader) {
-			this.initAdContainer();
-		}
+		this.initAdContainer();
 		this.requestAds();
 	}
 
@@ -227,9 +223,7 @@ class Ima extends Tech {
 	preload() {}
 	load() {}
 
-	reset(full) {
-		full = full != undefined ? 
-			full : this.source.fullReset;
+	reset() {
 		if (this.adsManager) {
 			//Dispose of the IMA SDK
 			this.adsManager.stop();
@@ -248,13 +242,10 @@ class Ima extends Tech {
 		this.contentTracker.currentTime = 0;
 		this.contentTracker.duration = 0;
 		this.contentTracker.seeking = false;
-
-		if (full) {
-			this.adsLoader && this.adsLoader.destroy()||'';
-			this.adsLoader = null;
-			this.adDisplayContainer && this.adDisplayContainer.destroy()||'';
-			this.adDisplayContainer = null;
-		}
+		this.adsLoader && this.adsLoader.destroy()||'';
+		this.adsLoader = null;
+		this.adDisplayContainer && this.adDisplayContainer.destroy()||'';
+		this.adDisplayContainer = null;
 	}
 
 	dispose() {
@@ -268,13 +259,13 @@ class Ima extends Tech {
 
 	handleLateInit_(contentInfo) {
 		this.player_ = contentInfo.imaPlayer;
-		this.contentMediaElement = contentInfo.mediaElement;
+		this.source.contentMediaElement = contentInfo.mediaElement;
 		this.resize(contentInfo);
-		this.setSource(this.options_.source, true);
+		this.setSource(this.source, true);
 	}
 
 	initAdContainer() {
-		this.adDisplayContainer = new google.ima.AdDisplayContainer(this.el_, this.contentMediaElement);
+		this.adDisplayContainer = new google.ima.AdDisplayContainer(this.el_, this.source.contentMediaElement);
 		this.setAdsLoader();
 	}
 

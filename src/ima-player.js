@@ -63,6 +63,8 @@ class ImaPlayer extends Player {
 		this.adPosition = 0;
 		this.totalAds = 0;
 
+		this.contentTech = "";
+
 		// we wont toggle content player controls if controls disabled
 		this.contentControlsDisabled = !contentPlayer.controls();
 		this.contentPlayer = contentPlayer;
@@ -77,7 +79,7 @@ class ImaPlayer extends Player {
 		this.setTimeout(() => {
 			this.tech_.handleLateInit_({
 				imaPlayer: this,
-				mediaElement: contentPlayer.tech_.el_,
+				mediaElement: this.getContentTechElement(),
 				width: contentPlayer.currentWidth(),
 				height: contentPlayer.currentHeight(),
 				fullscreen: contentPlayer.isFullscreen()
@@ -156,6 +158,19 @@ class ImaPlayer extends Player {
 		this.handleTechNonLinearAdEnded_();
 	}
 
+	getContentTechElement() {
+		// if HTML5 video tag is not present
+		// serve fake element method to SDK
+		// that tells its not cappable to play HTML5
+		if (this.contentTechName !== this.contentPlayer.techName_) {
+			this.contentTechName = this.contentPlayer.techName_;
+			if (this.contentTechName !== "Html5") {
+				this.contentPlayer.tech_.el_.canPlayType = () => false;
+			}
+		}
+		return this.contentPlayer.tech_.el_;
+	}
+
 	/* IMA PLAYER METHODS USABLE FROM GLOBAL SPACE (PUBLIC) */
 
 	updateOptions(options) {
@@ -213,6 +228,7 @@ class ImaPlayer extends Player {
 	handleContentChanged_() {
 		this.setContentPlayerToDefault();
 		this.contentEnded = false;
+		this.imaOptions.contentMediaElement = this.getContentTechElement();
 		this.src(this.imaOptions);
 		this.setRemainingTimeVisibility();
 	}
