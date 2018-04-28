@@ -228,14 +228,8 @@ class ImaPlayer extends Player {
 	handleContentChanged_() {
 		this.setContentPlayerToDefault();
 		this.contentEnded = false;
-		var source = {};
-		console.log(this.contentTechName, this.contentPlayer.techName_)
-		if (this.contentTechName !== this.contentPlayer.techName_) {
-			console.log('changed mediaElement')
-			source.mediaElement = this.getContentTechElement();
-			source.fullReset = true;
-		}
-		this.src(Object.assign(source, this.imaOptions));
+		this.imaOptions.contentMediaElement = this.getContentTechElement();
+		this.src(this.imaOptions);
 		this.setRemainingTimeVisibility();
 	}
 

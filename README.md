@@ -55,10 +55,8 @@ you have to set ``player.ads.contentSrc="new-source.mp4"`` before calling ``play
 ## Methods (bound to player.ima)
 
 **`updateOptions({options})`** -- sets new IMA options. This options is applied once content player source is changed. 
-Set ``fullReset: true``, if you are going to change one of these settings: ``vpaidMode``, ``numRedirects``, ``autoPlayAdBreaks``, ``locale``.
 
 **`play()`** -- call this method to play ad only when autoPlayAdBreaks is set to false and adBreakReady occurs. Otherwise resumes paused ad.
-
 
 **`pause()`** -- pauses current ad.
 
@@ -83,7 +81,6 @@ Usage: `player.ima.on(...)`/`player.ima.off(...)`
 | disableFlashAds        | boolean      | True to disable Flash ads - Flash ads will be considered an unsupported ad type. Defaults to false. |
 | disableCustomPlaybackForIOS10Plus | boolean      | Sets whether to disable custom playback on iOS 10+ browsers. If true, ads will play inline if the content video is inline. Defaults to false. |
 | forceNonLinearFullSlot | boolean      | True to force non-linear AdSense ads to render as linear fullslot.,If set, the content video will be paused and the non-linear text or image ad will be rendered as,fullslot. The content video will resume once the ad has been skipped or closed. |
-| fullReset              | boolean      | Fully resets IMA SDK during contentchange. Usable when options differs deeply. |
 | locale                 | string       | Locale for ad localization. This may be any,ISO 639-1 (two-letter) or ISO 639-2,(three-letter) code(3). Defaults to 'en'. |
 | nonLinearWidth         | number       | Desired width of non-linear ads. Defaults to player width. |
 | nonLinearHeight        | number       | Desired height for non-linear ads. Defaults to 1/3 player height. |
