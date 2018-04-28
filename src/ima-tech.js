@@ -31,12 +31,12 @@ class Ima extends Tech {
 
 	mergeWithDefaults(options) {
 		var gis = google.ima.settings;
-		var source = Object.assign({
+		return Object.assign({
 			fullReset: false,
 			showControlsForJSAds: true,
 			locale: gis.getLocale(),
 			disableFlashAds: gis.getDisableFlashAds(),
-			disableCustomPlaybackForIOS10Plus: gis.getDisableCustomPlaybackForIOS10Plus(),
+			disableCustomPlaybackForIOS10Plus: videojs.browser.IS_IOS,
 			numRedirects: gis.getNumRedirects(),
 			autoPlayAdBreaks: true,
 			vpaidMode: google.ima.ImaSdkSettings.VpaidMode.ENABLED,
@@ -52,14 +52,6 @@ class Ima extends Tech {
 				loadVideoTimeout: 5000
 			},
 		}, options);
-
-		// Set SDK settings from plugin settings.
-		/* eslint no-undef: 'error' */
-		/* global google */
-		google.ima.settings.setLocale(source.locale);
-		google.ima.settings.setDisableFlashAds(source.disableFlashAds);
-		google.ima.settings.setDisableCustomPlaybackForIOS10Plus(source.disableCustomPlaybackForIOS10Plus);
-		return source;
 	}
 
 	/* THESE ARE Tech's OVERRIDEN METHODS */
@@ -276,8 +268,10 @@ class Ima extends Tech {
 
 	setAdsLoader() {
 		this.adsLoader = new google.ima.AdsLoader(this.adDisplayContainer);
-		this.adsLoader.getSettings().setVpaidMode(this.source.vpaidMode);
 		this.adsLoader.getSettings().setLocale(this.source.locale);
+		this.adsLoader.getSettings().setDisableFlashAds(this.source.disableFlashAds);
+		this.adsLoader.getSettings().setDisableCustomPlaybackForIOS10Plus(this.source.disableCustomPlaybackForIOS10Plus);
+		this.adsLoader.getSettings().setVpaidMode(this.source.vpaidMode);
 		this.adsLoader.getSettings().setNumRedirects(this.source.numRedirects);
 		this.adsLoader.getSettings().setPlayerType('videojs-ima-player');
 		this.adsLoader.getSettings().setPlayerVersion(pkg.version);
