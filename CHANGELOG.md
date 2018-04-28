@@ -1,3 +1,9 @@
+## 0.2.6
+
+* fixed content tech element reference when content changes
+* removed unsafe fullReset, now it fully resets always
+* fixed contrib-ads loading-spinner bug
+
 ## 0.2.5
 
 * implemented isWaitingForAdBreak() method
