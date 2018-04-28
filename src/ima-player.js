@@ -63,8 +63,6 @@ class ImaPlayer extends Player {
 		this.adPosition = 0;
 		this.totalAds = 0;
 
-		this.contentTech = "";
-
 		// we wont toggle content player controls if controls disabled
 		this.contentControlsDisabled = !contentPlayer.controls();
 		this.contentPlayer = contentPlayer;
@@ -159,14 +157,8 @@ class ImaPlayer extends Player {
 	}
 
 	getContentTechElement() {
-		// if HTML5 video tag is not present
-		// serve fake element method to SDK
-		// that tells its not cappable to play HTML5
-		if (this.contentTechName !== this.contentPlayer.techName_) {
-			this.contentTechName = this.contentPlayer.techName_;
-			if (this.contentTechName !== "Html5") {
-				this.contentPlayer.tech_.el_.canPlayType = () => false;
-			}
+		if (this.contentPlayer.techName_ !== "Html5" && !this.contentPlayer.tech_.el_.canPlayType) {
+			this.contentPlayer.tech_.el_.canPlayType = () => false;
 		}
 		return this.contentPlayer.tech_.el_;
 	}

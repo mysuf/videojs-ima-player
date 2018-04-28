@@ -32,7 +32,6 @@ class Ima extends Tech {
 	mergeWithDefaults(options) {
 		var gis = google.ima.settings;
 		return Object.assign({
-			fullReset: false,
 			showControlsForJSAds: true,
 			locale: gis.getLocale(),
 			disableFlashAds: gis.getDisableFlashAds(),
