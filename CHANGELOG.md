@@ -1,3 +1,8 @@
+## 0.2.7
+
+* fixed content tech change
+* removed useless code
+
 ## 0.2.6
 
 * fixed content tech element reference when content changes
