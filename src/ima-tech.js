@@ -431,8 +431,10 @@ class Ima extends Tech {
 
 	preroll() {
 		this.contentHasStarted_ = true;
-		this.initAdsManager();
-		this.autoplay() && this.play() || ''; 
+		if (this.adsManager) {
+			this.initAdsManager();
+			this.autoplay() && this.play() || '';
+		}
 	}
 
 	postroll() {

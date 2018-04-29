@@ -1,3 +1,8 @@
+## 0.2.8
+
+* simplified nopreroll/nopostroll logic
+* covers also silent ima errors like skippable on IOS
+
 ## 0.2.7
 
 * fixed content tech change

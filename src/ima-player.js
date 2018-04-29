@@ -62,6 +62,8 @@ class ImaPlayer extends Player {
 		// and exposed for component imaRemainingTimeDisplay
 		this.adPosition = 0;
 		this.totalAds = 0;
+		this.prerollScheduled = false;
+		this.postrollScheduled = false;
 
 		// we wont toggle content player controls if controls disabled
 		this.contentControlsDisabled = !contentPlayer.controls();
@@ -120,8 +122,9 @@ class ImaPlayer extends Player {
 	// there are aditional jobs that needs to be done
 	reset() {
 		this.setContentPlayerToDefault();
+		this.prerollScheduled = false;
+		this.postrollScheduled = false;
 		super.reset.call(this);
-		this.handleTechNoAds_();
 	}
 
 	/* THESE METHODS ARE PART OF TECH INITIALIZATION */
@@ -150,8 +153,6 @@ class ImaPlayer extends Player {
 	}
 
 	setContentPlayerToDefault() {
-		this.offNoPreroll();
-		this.offNoPostroll();
 		this.handleTechLinearAdEnded_();
 		this.handleTechNonLinearAdEnded_();
 	}
@@ -161,6 +162,14 @@ class ImaPlayer extends Player {
 			this.contentPlayer.tech_.el_.canPlayType = () => false;
 		}
 		return this.contentPlayer.tech_.el_;
+	}
+
+	setRemainingTimeVisibility() {
+		if (this.imaOptions.showCountdown === false) {
+			this.controlBar.imaRemainingTimeDisplay.hide();
+			return;
+		}
+		this.controlBar.imaRemainingTimeDisplay.show()
 	}
 
 	/* IMA PLAYER METHODS USABLE FROM GLOBAL SPACE (PUBLIC) */
@@ -195,31 +204,43 @@ class ImaPlayer extends Player {
 		}
 	}
 
-	setRemainingTimeVisibility() {
-		if (this.imaOptions.showCountdown === false) {
-			this.controlBar.imaRemainingTimeDisplay.hide();
-			return;
+	skipLinearAdMode() {
+		if (this.contentPlayer.ads.isWaitingForAdBreak()) {
+			this.contentPlayer.ads.skipLinearAdMode();
 		}
-		this.controlBar.imaRemainingTimeDisplay.show()
 	}
 
 	/* THESE METHODS HANDLES CONTENT PLAYER */
 
+	handleTechNoAds_() {
+		this.contentPlayer.trigger('adsready');
+	}
+
 	handleContentReadyForPreroll_() {
+		if (!this.prerollScheduled) {
+			this.skipLinearAdMode();
+		}
 		this.techCall_('preroll');
+		this.prerollScheduled = false;
 	}
 
 	handleContentReadyForPostroll_() {
 		// triggers only once per source
+		if (!this.postrollScheduled) {
+			this.skipLinearAdMode();
+		}
 		if (!this.contentEnded) {
 			this.contentEnded = true;
 			this.techCall_('postroll');
 		}
+		this.postrollScheduled = false;
 	}
 
 	handleContentChanged_() {
 		this.setContentPlayerToDefault();
 		this.contentEnded = false;
+		this.prerollScheduled = false;
+		this.postrollScheduled = false;
 		this.imaOptions.contentMediaElement = this.getContentTechElement();
 		this.src(this.imaOptions);
 		this.setRemainingTimeVisibility();
@@ -261,14 +282,9 @@ class ImaPlayer extends Player {
 
 	/* THESE METHODS HANDLES IMA TECH */
 
-	handleTechNoAds_() {
-		this.onNoPreroll();
-		this.onNoPostroll();
-	}
-
 	handleTechAdsManagerLoaded_(e, cuePoints) {
-		!cuePoints.includes(0) ? this.onNoPreroll() : '';
-		!cuePoints.includes(-1) ? this.onNoPostroll() : '';
+		this.prerollScheduled = cuePoints.includes(0);
+		this.postrollScheduled = cuePoints.includes(-1);
 		this.contentPlayer.trigger('adsready');
 	}
 
@@ -293,6 +309,8 @@ class ImaPlayer extends Player {
 
 	handleTechLinearAdEnded_() {
 		if (!this.contentPlayer.ads.inAdBreak()) {
+			// covers silent errors like skippable on IOS
+			this.skipLinearAdMode();
 			return;
 		}
 
@@ -320,42 +338,6 @@ class ImaPlayer extends Player {
 		this.hide();
 		this.removeClass('waiting');
 		this.reset();
-	}
-
-	/* THESE METHODS HANDLES CONTRIB-ADS */
-	// handles contrib-ads nopreroll/nopostroll events
-	// instead of build-in IMA SDK contentResumeRequested logic
-
-	onNoPreroll() {
-		if (this.contentPlayer.hasStarted()) {
-			if (this.contentPlayer.ads.isWaitingForAdBreak()) {
-				this.contentPlayer.ads.skipLinearAdMode();
-			}
-			return;
-		}
-		this.one(this.contentPlayer, 'play', this.triggerNoPreroll);	
-	}
-
-	offNoPreroll() {
-		this.off(this.contentPlayer, 'play', this.triggerNoPreroll);
-	}
-
-	onNoPostroll() {
-		if (!this.contentEnded) {
-			this.one(this.contentPlayer, 'contentended', this.triggerNoPostroll);
-		}
-	}
-
-	offNoPostroll() {
-		this.off(this.contentPlayer, 'contentended', this.triggerNoPostroll);
-	}
-
-	triggerNoPreroll() {
-		this.contentPlayer.trigger('nopreroll');
-	}
-
-	triggerNoPostroll() {
-		this.contentPlayer.trigger('nopostroll');
 	}
 }
 
