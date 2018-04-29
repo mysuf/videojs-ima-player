@@ -62,6 +62,7 @@ class ImaPlayer extends Player {
 		// and exposed for component imaRemainingTimeDisplay
 		this.adPosition = 0;
 		this.totalAds = 0;
+		this.adsReadyTriggered = false;
 		this.prerollScheduled = false;
 		this.postrollScheduled = false;
 
@@ -125,6 +126,7 @@ class ImaPlayer extends Player {
 		this.prerollScheduled = false;
 		this.postrollScheduled = false;
 		super.reset.call(this);
+		this.handleTechAdsReady_();
 	}
 
 	/* THESE METHODS ARE PART OF TECH INITIALIZATION */
@@ -142,8 +144,7 @@ class ImaPlayer extends Player {
 
 	trackImaEvents() {
 		// these events are removed together with tech
-		this.on(this.tech_, 'noads', this.handleTechNoAds_)
-		this.on(this.tech_, 'adsmanagerloaded', this.handleTechAdsManagerLoaded_);
+		this.on(this.tech_, 'adsready', this.handleTechAdsReady_);
 		this.on(this.tech_, 'adchange', this.handleTechAdChange_);
 		this.on(this.tech_, 'linearadstarted', this.handleTechLinearAdStarted_);
 		this.on(this.tech_, 'linearadended', this.handleTechLinearAdEnded_);
@@ -212,10 +213,6 @@ class ImaPlayer extends Player {
 
 	/* THESE METHODS HANDLES CONTENT PLAYER */
 
-	handleTechNoAds_() {
-		this.contentPlayer.trigger('adsready');
-	}
-
 	handleContentReadyForPreroll_() {
 		if (!this.prerollScheduled) {
 			this.skipLinearAdMode();
@@ -241,6 +238,7 @@ class ImaPlayer extends Player {
 		this.contentEnded = false;
 		this.prerollScheduled = false;
 		this.postrollScheduled = false;
+		this.adsReadyTriggered = false;
 		this.imaOptions.contentMediaElement = this.getContentTechElement();
 		this.src(this.imaOptions);
 		this.setRemainingTimeVisibility();
@@ -282,10 +280,13 @@ class ImaPlayer extends Player {
 
 	/* THESE METHODS HANDLES IMA TECH */
 
-	handleTechAdsManagerLoaded_(e, cuePoints) {
-		this.prerollScheduled = cuePoints.includes(0);
-		this.postrollScheduled = cuePoints.includes(-1);
-		this.contentPlayer.trigger('adsready');
+	handleTechAdsReady_(e, cuePoints) {
+		this.prerollScheduled = cuePoints && cuePoints.includes(0);
+		this.postrollScheduled = cuePoints && cuePoints.includes(-1);
+		if (!this.adsReadyTriggered) {
+			this.adsReadyTriggered = true;
+			this.contentPlayer.trigger('adsready');
+		}
 	}
 
 	handleTechAdChange_(e, adPodInfo) {

@@ -475,7 +475,7 @@ class Ima extends Tech {
 
 	onAdsManagerLoaded(e) {
 		this.setAdsManager(e);
-		this.trigger('adsmanagerloaded', this.adsManager.getCuePoints());
+		this.trigger('adsready', this.adsManager.getCuePoints());
 	}
 
 	onAdLoaded(e) {

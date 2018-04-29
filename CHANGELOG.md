@@ -1,3 +1,7 @@
+## 0.2.9
+
+* fixed missing adsready after reset
+
 ## 0.2.8
 
 * simplified nopreroll/nopostroll logic
