@@ -95,7 +95,7 @@ class Ima extends Tech {
 			// if no ads are provided we left tech reseted
 			// and let content know that no ads will be played
 			if (init) this.triggerReady();
-			this.trigger('noads');
+			this.trigger('adsready');
 			return;
 		}
 

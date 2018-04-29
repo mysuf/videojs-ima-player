@@ -1,3 +1,7 @@
+## 0.3.0
+
+* fixed tech triggering internal adsready event
+
 ## 0.2.9
 
 * fixed missing adsready after reset
