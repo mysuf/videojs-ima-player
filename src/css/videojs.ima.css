@@ -26,18 +26,21 @@
 	z-index: 1111 !important;
 }
 .vjs-ima .vjs-control-bar {
-	z-index: 1112 !important;
 	height: 3em !important;
 	padding: 0 !important;
 	padding-bottom: 0.25em !important;
 }
-.vjs-ima.non-linear .ima-ad-container > div:first-child {
+.vjs-ima .vjs-control-bar, .video-js.non-linear-ad .vjs-control-bar {
+	z-index: 1112 !important;
+}
+
+.non-linear-ad .vjs-ima .ima-ad-container > div:first-child {
 	bottom: 0;
 }
-.vjs-user-active .vjs-ima.non-linear,
-.vjs-paused .vjs-ima.non-linear,
-.vjs-ended .vjs-ima.non-linear,
-.vjs-ima.non-linear.vjs-user-active {
+.vjs-user-active.non-linear-ad .vjs-ima,
+.vjs-paused.non-linear-ad .vjs-ima,
+.vjs-ended.non-linear-ad .vjs-ima,
+.video-js.non-linear-ad .vjs-ima.vjs-user-active {
 	height: auto !important;
 	bottom: 3em !important;
 }
@@ -121,9 +124,4 @@
 
 .vjs-ima .vjs-progress-control .vjs-progress-holder {
 	margin: 0 !important;
-}
-
-/* temporary fix for contrib-ads v6.2.0 loading spinner bug */
-.vjs-ad-playing.vjs-ad-loading .vjs-loading-spinner {
-	display: none;
 }

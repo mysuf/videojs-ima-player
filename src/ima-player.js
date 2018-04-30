@@ -300,6 +300,7 @@ class ImaPlayer extends Player {
 		}
 
 		this.contentPlayer.ads.startLinearAdMode();
+		this.contentPlayer.trigger('ads-ad-started');
 		this.volume(this.contentPlayer.volume());
 		this.muted(this.contentPlayer.muted());
 		this.setContentControls(false);
@@ -326,12 +327,12 @@ class ImaPlayer extends Player {
 
 	handleTechNonLinearAdStarted_() {
 		this.controls(false);
-		this.addClass('non-linear');
+		this.contentPlayer.addClass('non-linear-ad');
 		this.show();
 	}
 
 	handleTechNonLinearAdEnded_() {
-		this.removeClass('non-linear');
+		this.contentPlayer.removeClass('non-linear-ad');
 		this.hide();
 	}
 

@@ -1,3 +1,8 @@
+## 0.3.1
+
+* fixed contrib-ads loading spinner
+* fixed tooltip's z-index when non-linear ad is playing
+
 ## 0.3.0
 
 * fixed tech triggering internal adsready event
