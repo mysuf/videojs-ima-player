@@ -8,8 +8,12 @@
 .vjs-error .vjs-ima.vjs-controls-enabled .vjs-control-bar {
 	display: flex !important;
 }
-.vjs-ad-loading .vjs-ima:not(.vjs-waiting) .vjs-loading-spinner {
+.vjs-ad-loading .vjs-ima.vjs-waiting .vjs-loading-spinner {
 	display: none;
+}
+
+.vjs-ima.vjs-waiting .vjs-loading-spinner {
+	z-index
 }
 .vjs-ima {
 	position: absolute !important;
@@ -30,7 +34,9 @@
 	padding: 0 !important;
 	padding-bottom: 0.25em !important;
 }
-.vjs-ima .vjs-control-bar, .video-js.non-linear-ad .vjs-control-bar {
+.vjs-ima .vjs-control-bar,
+.video-js.non-linear-ad .vjs-control-bar,
+.vjs-ima.vjs-waiting .vjs-loading-spinner {
 	z-index: 1112 !important;
 }
 
