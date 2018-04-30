@@ -11,10 +11,6 @@
 .vjs-ad-loading .vjs-ima.vjs-waiting .vjs-loading-spinner {
 	display: none;
 }
-
-.vjs-ima.vjs-waiting .vjs-loading-spinner {
-	z-index
-}
 .vjs-ima {
 	position: absolute !important;
 	top: 0 !important;
