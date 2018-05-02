@@ -89,7 +89,7 @@ Usage: `player.ima.on(...)`/`player.ima.off(...)`
 | showControlsForJSAds   | boolean      | Whether or not to show the control bar for VPAID JavaScript ads. Defaults to true. |
 | showCountdown          | boolean      | Whether or not to show the ad countdown timer. Defaults to true. |
 | timeout                | number       | Timeout(contrib-ads) for loading preroll/postroll ads. Default: 5000. |
-| vpaidMode              | VpaidMode(4) | VPAID Mode. Defaults to ENABLED. This setting,overrides vpaidAllowed. |
+| vpaidMode              | VpaidMode(4) | VPAID Mode. Defaults to ENABLED. |
 
 
 (1) [IMA SDK Docs](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis)
