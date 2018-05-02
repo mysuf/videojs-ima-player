@@ -1,3 +1,8 @@
+## 0.3.2
+
+* autoplay and muted state passed to IMA SDK
+* added autoplay example
+
 ## 0.3.1
 
 * fixed contrib-ads loading spinner
