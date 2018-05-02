@@ -111,6 +111,6 @@ this feature is turned off and is up to you when you play the ad
 ## About timeouts
 This integration use hard timeout 5s. If ad is not loaded within given time,
 IMA silently skips current ad and resumes content playback. You can adjust this
-timeout by `timeout' setting. As IMA SDK supports only one timeout value, 
+timeout by `timeout` setting. As IMA SDK supports only one timeout value, 
 different preroll/postroll timeouts are not supported in this plugin. 
 Default: `timeout = 5000`, `adsRenderingSettings.loadVideoTimeout = timeout`.
