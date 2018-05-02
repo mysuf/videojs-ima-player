@@ -88,6 +88,7 @@ Usage: `player.ima.on(...)`/`player.ima.off(...)`
 | ofLabel                | string       | Replaces the "of" text in the ad label. Added for multilingual UI support. |
 | showControlsForJSAds   | boolean      | Whether or not to show the control bar for VPAID JavaScript ads. Defaults to true. |
 | showCountdown          | boolean      | Whether or not to show the ad countdown timer. Defaults to true. |
+| timeout                | number       | Timeout(contrib-ads) for loading preroll/postroll ads. Default: 5000. |
 | vpaidMode              | VpaidMode(4) | VPAID Mode. Defaults to ENABLED. This setting,overrides vpaidAllowed. |
 
 
@@ -106,3 +107,10 @@ this feature is turned off and is up to you when you play the ad
 
 1. Set ```autoPlayAdBreaks``` to false
 2. Listen and play on adBreakReady ```player.ima.on('adBreakReady', player.ima.play)```
+
+## About timeouts
+This integration use hard timeout 5s. If ad is not loaded within given time,
+IMA silently skips current ad and resumes content playback. You can adjust this
+timeout by `timeout' setting. As IMA SDK supports only one timeout value, 
+different preroll/postroll timeouts are not supported in this plugin. 
+Default: `timeout = 5000`, `adsRenderingSettings.loadVideoTimeout = timeout`.
