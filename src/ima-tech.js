@@ -251,6 +251,8 @@ class Ima extends Tech {
 	handleLateInit_(contentInfo) {
 		this.player_ = contentInfo.imaPlayer;
 		this.source.contentMediaElement = contentInfo.mediaElement;
+		this.source.adWillAutoPlay = contentInfo.autoplay;
+		this.source.adWillPlayMuted = contentInfo.muted;
 		this.resize(contentInfo);
 		this.setSource(this.source, true);
 	}

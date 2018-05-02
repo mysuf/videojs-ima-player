@@ -83,7 +83,9 @@ class ImaPlayer extends Player {
 				mediaElement: this.getContentTechElement(),
 				width: contentPlayer.currentWidth(),
 				height: contentPlayer.currentHeight(),
-				fullscreen: contentPlayer.isFullscreen()
+				fullscreen: contentPlayer.isFullscreen(),
+				autoplay: contentPlayer.autoplay(),
+				muted: contentPlayer.muted()
 			});
 		});
 	}
