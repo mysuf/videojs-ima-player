@@ -48,7 +48,7 @@ class Ima extends Tech {
 			adWillAutoMuted: false,
 			showCountdown: true,
 			adsRenderingSettings: {
-				loadVideoTimeout: options.timeout
+				loadVideoTimeout: options.timeout||5000
 			},
 		}, options);
 	}
