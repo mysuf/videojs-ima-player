@@ -1,3 +1,12 @@
+## 0.3.4
+
+* fixed timeout default value
+
+## 0.3.3
+
+* sorted timeouts
+* README about timeouts
+
 ## 0.3.2
 
 * autoplay and muted state passed to IMA SDK
