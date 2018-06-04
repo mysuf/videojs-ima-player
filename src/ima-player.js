@@ -88,6 +88,8 @@ class ImaPlayer extends Player {
 				muted: contentPlayer.muted()
 			});
 		});
+
+		this.ready(this.handleContentResize_);
 	}
 
 	// OVERRIDES default method

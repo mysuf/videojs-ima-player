@@ -1,3 +1,8 @@
+## 0.3.5
+
+* fixed initial dimensions
+* fixed ima corner case where currentAd is not defined
+
 ## 0.3.4
 
 * fixed timeout default value

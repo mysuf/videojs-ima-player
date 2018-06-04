@@ -508,7 +508,7 @@ class Ima extends Tech {
 	onNonLinearAdLoaded() {}
 
 	onContentPauseRequested() {
-		var isJSAd = this.currentAd.getContentType() === 'application/javascript';
+		var isJSAd = this.currentAd && this.currentAd.getContentType() === 'application/javascript';
 		this.trigger('linearadstarted', !isJSAd || this.source.showControlsForJSAds);
 		this.trigger('waiting');
 	}
