@@ -21,9 +21,11 @@
     "pretest": "npm run rollup",
     "start": "npm run devServer",
     "test": "npm-run-all test:*",
-    "test:vjs5last": "npm install video.js@5.20.5 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs5latest": "npm install video.js@5.20.5 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
     "test:vjs6first": "npm install video.js@6.0.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
-    "test:vjs6latest": "npm install video.js@latest --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs6latest": "npm install video.js@6.10.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs7first": "npm install video.js@7.0.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs7latest": "npm install video.js@latest --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
     "testServer": "http-server --cors -p 8000 --silent",
     "webdriver": "mocha test/webdriver/*.js --no-timeouts"
   },
@@ -39,9 +41,8 @@
     "src/"
   ],
   "dependencies": {
-    "can-autoplay": "^3.0.0",
-    "video.js": "^5.19.2 || ^6",
-    "videojs-contrib-ads": "^6.2.0"
+    "video.js": "^5.19.2 || ^6 || ^7",
+    "videojs-contrib-ads": "^6.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -52,9 +53,9 @@
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-jsdoc": "^3.2.0",
     "forever": "^0.15.3",
-    "geckodriver": "^1.10.0",
+    "geckodriver": "^1.11.0",
     "http-server": "^0.10.0",
-    "mocha": "^4.0.1",
+    "mocha": "^5.2.0",
     "npm-run-all": "^4.1.2",
     "path": "^0.12.7",
     "rollup": "^0.51.8",

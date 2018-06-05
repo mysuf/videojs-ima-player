@@ -1,3 +1,10 @@
+## 0.3.7
+
+* videojs up to v7
+* upgraded geckodriver, webdriver, etc
+* added playbackRate tech method
+* more tests, fixed too fast webdriver click by ready event
+
 ## 0.3.6
 
 * initial resize bound to content player

@@ -171,6 +171,10 @@ class Ima extends Tech {
 		return videojs.createTimeRange();
 	}
 
+	playbackRate() {
+		return 1.0;
+	}
+
 	duration() {
 		return this.currentAd && this.currentAd.getDuration() > 0 ? 
 			this.currentAd.getDuration() : 0;

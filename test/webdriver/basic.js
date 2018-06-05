@@ -29,8 +29,9 @@ browsers.browsers.forEach(function(browser) {
 
     it( 'Displays ad UI ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=linear');
-      await driver.findElement(By.id('content_video')).click();
       let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
+      await driver.findElement(By.id('content_video')).click();
       await driver.wait(until.elementTextContains(log, 'start'), 10000);
       await driver.wait(until.elementIsVisible(driver.findElement(
         By.css('#content_video_ima .vjs-control-bar'))), 10000);
@@ -38,8 +39,9 @@ browsers.browsers.forEach(function(browser) {
 
     it( 'Hides ad player when ad ends ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=linear');
-      await driver.findElement(By.id('content_video')).click();
       let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
+      await driver.findElement(By.id('content_video')).click();
       await driver.wait(until.elementTextContains(log, 'start'), 10000);
       await driver.wait(until.elementIsNotVisible(driver.findElement(
         By.id('content_video_ima'))), 14000);
@@ -48,8 +50,9 @@ browsers.browsers.forEach(function(browser) {
 
     it( 'Plays content when ad ends ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=linear');
-      await driver.findElement(By.id('content_video')).click();
       let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
+      await driver.findElement(By.id('content_video')).click();
       await driver.wait(until.elementTextContains(log, 'start'), 10000);
       await driver.wait(until.elementIsNotVisible(driver.findElement(
         By.id('content_video_ima'))), 14000);
@@ -59,8 +62,9 @@ browsers.browsers.forEach(function(browser) {
 
     it( 'Displays skip ad button ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=skippable');
+      let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
       await driver.findElement(By.id('content_video')).click();
-      let log = driver.findElement(By.id('log'));
       await driver.wait(until.elementTextContains(log, 'start'), 10000);
       await driver.switchTo().frame(driver.findElement(
         By.css('#content_video_ima-ad-container > div:nth-child(1) > iframe')));
@@ -72,8 +76,9 @@ browsers.browsers.forEach(function(browser) {
 
      it( 'VMAP: Preroll ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=vmap_preroll');
-      await driver.findElement(By.id('content_video')).click();
       let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
+      await driver.findElement(By.id('content_video')).click();
       await driver.wait(until.elementTextContains(log, 'start'), 10000);
       await driver.wait(until.elementIsVisible(driver.findElement(
         By.id('content_video_ima-ad-container'))), 10000);
@@ -82,6 +87,8 @@ browsers.browsers.forEach(function(browser) {
 
     it( 'VMAP: Midroll ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=vmap_midroll');
+      let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
       await driver.findElement(By.id('content_video')).click();
       await driver.wait(until.elementIsVisible(driver.findElement(
         By.id('content_video_ima-ad-container'))), 10000);
@@ -90,8 +97,9 @@ browsers.browsers.forEach(function(browser) {
 
     it( 'Nonlinear ' + browser.name, async function(){
       await driver.get('http://localhost:8000/test/webdriver/index.html?ad=nonlinear');
-      await driver.findElement(By.id('content_video')).click();
       let log = await driver.findElement(By.id('log'));
+      await driver.wait(until.elementTextContains(log, 'ready'), 10000);
+      await driver.findElement(By.id('content_video')).click();
       await driver.wait(until.elementTextContains(log, 'start'), 10000);
       await driver.switchTo().frame(driver.findElement(
         By.css('#content_video_ima-ad-container > div:nth-child(1) > iframe')));

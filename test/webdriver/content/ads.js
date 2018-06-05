@@ -21,28 +21,31 @@ var adTagName = searchParams.get('ad');
 
 var player = videojs('content_video');
 
-var onAdEvent = function(event) {
-  var msg = event.type;
-  if (event.type === google.ima.AdErrorEvent.Type.AD_ERROR) {
-    msg = event.getError !== undefined ? 
-      event.getError().getVastErrorCode() : event.stack;
-  }
-  var log = document.getElementById('log');
-  log.innerHTML += msg + "<br>";
-};
-
-var options = {
+player.ima({
   disableFlagAds: true,
   adTagUrl: adTags[adTagName]
-};
+});
 
-player.ima(options);
+player.ready(function() {
+  var log = document.getElementById('log');
+  log.innerHTML += "ready<br>"; 
+});
+
 var events = [
   google.ima.AdErrorEvent.Type.AD_ERROR,
   google.ima.AdEvent.Type.STARTED,
 ];
+
 for (var index = 0; index < events.length; index++) {
-  player.ima.on(events[index], onAdEvent.bind(this));
+  player.ima.on(events[index], function(event) {
+    var msg = event.type;
+    if (event.type === google.ima.AdErrorEvent.Type.AD_ERROR) {
+      msg = event.getError !== undefined ? 
+        event.getError().getVastErrorCode() : event.stack;
+    }
+    var log = document.getElementById('log');
+    log.innerHTML += msg + "<br>";
+  });
 }
 
 player.on("playing", function(event) {
