@@ -1,3 +1,9 @@
+## 0.3.6
+
+* initial resize bound to content player
+* added ima volume events to handle bar properly
+* changed command order of start/end linear ad to fix undefined content player
+
 ## 0.3.5
 
 * fixed initial dimensions

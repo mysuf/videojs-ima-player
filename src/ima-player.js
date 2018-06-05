@@ -89,7 +89,7 @@ class ImaPlayer extends Player {
 			});
 		});
 
-		this.ready(this.handleContentResize_);
+		this.contentPlayer.ready(this.handleContentResize_.bind(this));
 	}
 
 	// OVERRIDES default method
@@ -303,10 +303,10 @@ class ImaPlayer extends Player {
 			return;
 		}
 
-		this.contentPlayer.ads.startLinearAdMode();
-		this.contentPlayer.trigger('ads-ad-started');
 		this.volume(this.contentPlayer.volume());
 		this.muted(this.contentPlayer.muted());
+		this.contentPlayer.ads.startLinearAdMode();
+		this.contentPlayer.trigger('ads-ad-started');
 		this.setContentControls(false);
 		this.controls(isControlsAllowed);
 		this.pauseContent();
@@ -320,9 +320,9 @@ class ImaPlayer extends Player {
 			return;
 		}
 
-		this.contentPlayer.ads.endLinearAdMode();
 		this.contentPlayer.volume(this.volume());
 		this.contentPlayer.muted(this.muted());
+		this.contentPlayer.ads.endLinearAdMode();
 		this.controls(false);
 		this.setContentControls(true);
 		this.hide();

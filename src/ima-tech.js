@@ -22,6 +22,7 @@ class Ima extends Tech {
 		this.width = 0;
 		this.heght = 0;
 		this.screenMode = "";
+		this.volumeTimeoutId = null;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
@@ -184,8 +185,8 @@ class Ima extends Tech {
 	}
 
 	setVolume(vol) {
-		this.adsManager && this.adsManager.setVolume(vol) || '';
 		this.volume_ = vol;
+		this.adsManager && this.adsManager.setVolume(vol) || '';
 	}
 
 	muted() {
@@ -197,10 +198,6 @@ class Ima extends Tech {
 
 		this.adsManager.setVolume(!mute && this.volume_ ? this.volume_ : 0);
 		this.muted_ = !!mute;
-
-		this.setTimeout( function(){
-			this.trigger('volumechange');
-		}, 50);
 	}
 
 	buffered() {
@@ -350,6 +347,12 @@ class Ima extends Tech {
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.RESUMED,
 			this.onAdEvent.bind(this, this.onAdResumed));
+		this.adsManager.addEventListener(
+			google.ima.AdEvent.Type.VOLUME_CHANGED,
+			this.onAdEvent.bind(this, this.onVolumeChanged));
+		this.adsManager.addEventListener(
+			google.ima.AdEvent.Type.VOLUME_MUTED,
+			this.onAdEvent.bind(this, this.onVolumeMuted));
 
 		// additional events retriggered to ima player
 		this.adsManager.addEventListener(
@@ -568,6 +571,14 @@ class Ima extends Tech {
 
 	onAdClick() {
 		this.pause();
+	}
+
+	onVolumeChanged() {
+		this.trigger('volumechange');
+	}
+
+	onVolumeMuted() {
+		this.trigger('volumechange');
 	}
 
 	onContentCompleted() {
