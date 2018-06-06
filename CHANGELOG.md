@@ -1,3 +1,7 @@
+## 0.3.8
+
+* fixed resize handling
+
 ## 0.3.7
 
 * videojs up to v7
