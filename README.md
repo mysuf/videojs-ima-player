@@ -1,4 +1,4 @@
-# Video advertisement plugin for video.js
+# Video ad plugin for video.js
 
 Introduction
 ------------
