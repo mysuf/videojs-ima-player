@@ -3,6 +3,7 @@ import './ima-time-display.js';
 import './ima-tech.js';
 
 const Player = videojs.getComponent('Player');
+const hasResizeManager = videojs.getComponent('ResizeManager') ? true : false;
 
 // Player is subclass of Component so is usable as part of parent player
 // plus is fully customizable and independent from content player
@@ -90,6 +91,11 @@ class ImaPlayer extends Player {
 		});
 
 		this.contentPlayer.ready(this.handleContentResize_.bind(this));
+
+		// videojs v5 basic playerresize fix
+		if (!hasResizeManager) {
+			window.onresize = this.handleContentResize_.bind(this);
+		}
 	}
 
 	// OVERRIDES default method
@@ -140,7 +146,7 @@ class ImaPlayer extends Player {
 		this.on(this.contentPlayer, 'seekend', this.handleContentSeekEnd_);
 		this.on(this.contentPlayer, 'durationchange', this.handleContentDurationChange_);
 		this.on(this.contentPlayer, 'timeupdate', this.handleContentTimeUpdate_);
-		this.on(this.contentPlayer, ['resize', 'fullscreenchange'], this.handleContentResize_);
+		this.on(this.contentPlayer, ['playerresize', 'resize', 'fullscreenchange'], this.handleContentResize_);
 		this.on(this.contentPlayer, 'contentchanged', this.handleContentChanged_);
 		this.on(this.contentPlayer, 'readyforpreroll', this.handleContentReadyForPreroll_);
 		this.on(this.contentPlayer, 'readyforpostroll', this.handleContentReadyForPostroll_);
