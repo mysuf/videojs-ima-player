@@ -79,62 +79,62 @@ Usage: `player.ima.on(...)`/`player.ima.off(...)`
 Settings
 --------
 
-**adTagUrl** (string)  
+**`adTagUrl`** *(string)*  
 url of VMAP/VAST/VPAID resource. REQUIRED IF adsResponse IS NOT PROVIDED.
 
-**adsResponse** (string)  
+**`adsResponse`** *(string)*  
 response in VMAP/VAST/VPAID form. REQUIRED IF adTagUrl IS NOT PROVIDED.
 
-**adLabel** (string)  
+**`adLabel`** *(string)*  
 Translation for text: "Advertisement". Default: "Advertisement"
 
-**adsRenderingSettings** (Object)  
+**`adsRenderingSettings`** *(Object)*  
 [IMA SDK ad rendering settings](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdsRenderingSettings)
 
-**autoPlayAdBreaks** (boolean)  
+**`autoPlayAdBreaks`** *(boolean)*  
 Autoplay ads. Default: true
 
-**contribAdsSettings** (Object)  
+**`contribAdsSettings`** *(Object)*  
 settings for [contrib-ads plugin](http://videojs.github.io/videojs-contrib-ads/integrator/options.html).
 
-**debug** (boolean)  
+**`debug`** *(boolean)*  
 contrib-ads debug log. Default: false
 
-**disableFlashAds** (boolean)  
+**`disableFlashAds`** *(boolean)*  
 Disables flash ads. Default: IMA SDK default
 
-**disableCustomPlaybackForIOS10Plus** (boolean)  
+**`disableCustomPlaybackForIOS10Plus`** *(boolean)*  
 Enables inline playback on iOS 10+. Requires playsinline attribute on video tag. Default: false
 
-**forceNonLinearFullSlot** (boolean)  
+**`forceNonLinearFullSlot`** *(boolean)*  
 Renders non linear ad as linear fullslot. Default: false
 
-**locale** (string)  
+**`locale`** *(string)*  
 Sets locale based on [ISO 639-1 (two-letter) or ISO 639-2 (three-letter) code](http://www.loc.gov/standards/iso639-2/php/English_list.php). Default: 'en'
 
-**nonLinearWidth** (number)  
+**`nonLinearWidth`** *(number)*  
 Sets width of non-linear ads. Default: width of content player
 
-**nonLinearHeight** (number)  
+**`nonLinearHeight`** *(number)*  
 Sets height of non-linear ads. Default: 1/3 of content player height
 
-**numRedirects** (number)  
+**`numRedirects`** *(number)*  
 Maximum number of VAST redirects. Default: IMA SDK default
 
-**`ofLabel`** `(string)`  
+**`ofLabel`** *(string)*  
 Translation for text "of" (e.g. "1 of 2"). Default: of"
 
-**showControlsForJSAds** (boolean)
+**`showControlsForJSAds`** (boolean)  
 Enables controls for VPAID JavaScript ads. Default: true
 
-**showCountdown** (boolean)  
+**`showCountdown`** *(boolean)*  
 Enables countdown timer. Default: true
 
-**timeout** (number)  
+**`timeout`** *(number)*  
 contrib-ads hard timeout for loading preroll/postroll ads. Default: 5000
 
-**`vpaidMode`** `([google.ima.ImaSdkSettings.VpaidMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.ImaSdkSettings.VpaidMode))`  
-VPAID Mode. Default: ENABLED
+**`vpaidMode`** *(IMA SDK default)*  
+[google.ima.ImaSdkSettings.VpaidMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.ImaSdkSettings.VpaidMode). Default: ENABLED
 
 
 Disabled ad autoplay
