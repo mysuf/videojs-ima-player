@@ -3,7 +3,7 @@
 Introduction
 ------------
 
-Video advertisement plugin for video.js that integrates [IMA SDK API](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis) 
+Video ad plugin for video.js that integrates [IMA SDK API](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis) 
 to handle VMAP/VAST/VPAID video ads together with native videojs UI.
 
 Note: this is not [official IMA SDK integration](https://github.com/googleads/videojs-ima).
