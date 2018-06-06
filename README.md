@@ -133,7 +133,7 @@ Enables countdown timer. Default: true
 **`timeout`** *(number)*  
 contrib-ads hard timeout for loading preroll/postroll ads. Default: 5000
 
-**`vpaidMode`** *(IMA SDK default)*  
+**`vpaidMode`** *(VpaidMode)*  
 [google.ima.ImaSdkSettings.VpaidMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.ImaSdkSettings.VpaidMode). Default: ENABLED
 
 
