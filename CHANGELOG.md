@@ -1,3 +1,7 @@
+## 0.3.9
+
+* removed prerollScheduled as it broke unscheduled ads
+
 ## 0.3.8
 
 * fixed resize handling
