@@ -4,7 +4,7 @@ Introduction
 ------------
 
 [IMA SDK](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis) integration
-for video.js.
+for video.js. Based on customized videojs player, tech and UI tailored for ad playback.
 
 Note: this is not [official IMA SDK integration](https://github.com/googleads/videojs-ima).
 
