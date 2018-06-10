@@ -22,7 +22,6 @@ class Ima extends Tech {
 		this.width = 0;
 		this.heght = 0;
 		this.screenMode = "";
-		this.volumeTimeoutId = null;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
