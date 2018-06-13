@@ -3,7 +3,7 @@ import './ima-time-display.js';
 import './ima-tech.js';
 
 const Player = videojs.getComponent('Player');
-const hasResizeManager = videojs.getComponent('ResizeManager') ? true : false;
+const hasResizeManager = !!videojs.getComponent('ResizeManager');
 
 // Player is subclass of Component so is usable as part of parent player
 // plus is fully customizable and independent from content player
