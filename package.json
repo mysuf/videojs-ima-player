@@ -38,7 +38,7 @@
     "LICENSE",
     "README.md",
     "dist/",
-    "src/"
+    "examples/"
   ],
   "dependencies": {
     "video.js": "^5.19.2 || ^6 || ^7",
