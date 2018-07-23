@@ -1,5 +1,5 @@
 
-import pkg from '../package.json';
+import { version } from '../package.json';
 
 const Tech = videojs.getTech('Tech');
 
@@ -275,7 +275,7 @@ class Ima extends Tech {
 		this.adsLoader.getSettings().setVpaidMode(this.source.vpaidMode);
 		this.adsLoader.getSettings().setNumRedirects(this.source.numRedirects);
 		this.adsLoader.getSettings().setPlayerType('videojs-ima-player');
-		this.adsLoader.getSettings().setPlayerVersion(pkg.version);
+		this.adsLoader.getSettings().setPlayerVersion(version);
 		this.adsLoader.getSettings().setAutoPlayAdBreaks(this.source.autoPlayAdBreaks);
 
 		this.adsLoader.addEventListener(
