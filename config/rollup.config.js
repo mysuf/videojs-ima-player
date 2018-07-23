@@ -1,25 +1,9 @@
-import copy from 'rollup-plugin-copy';
-import json from 'rollup-plugin-json';
-import babel from 'rollup-plugin-babel';
+import config from './base.config.js';
+import postcss from 'rollup-plugin-postcss';
+import autoprefixer from 'autoprefixer';
 
-export default {
-  name: 'videojsIma',
-  input: 'src/ima-plugin.js',
-  output: {
-    file: 'dist/videojs.ima.js',
-    format: 'umd',
-  },
-  external: ['video.js', 'videojs-contrib-ads'],
-  globals: {
-    'video.js': 'videojs',
-  },
-  plugins: [
-    json(),
-    copy({
-      'src/css/videojs.ima.css': 'dist/videojs.ima.css',
-    }),
-    babel({
-      exclude: 'node_modules/**',
-    }),
-  ],
-};
+config.plugins.unshift(postcss({
+  extract: true,
+  plugins: [autoprefixer()]
+}));
+export default config;

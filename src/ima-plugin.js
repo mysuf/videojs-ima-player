@@ -1,4 +1,4 @@
-
+import './css/videojs.ima.css';
 import './ima-player.js';
 
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
