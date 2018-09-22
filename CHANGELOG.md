@@ -1,3 +1,7 @@
+## 0.4.1
+
+* fixed vulnerabilities
+
 ## 0.4.0
 
 * improved bundling
