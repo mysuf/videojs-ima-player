@@ -1,3 +1,9 @@
+## 0.4.0
+
+* improved bundling
+* added examples to npm
+* added global videojs import
+
 ## 0.3.9
 
 * removed prerollScheduled as it broke unscheduled ads
