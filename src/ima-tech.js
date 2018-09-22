@@ -1,5 +1,6 @@
 
-import { version } from '../package.json';
+import videojs from 'video.js';
+import {version} from '../package.json';
 
 const Tech = videojs.getTech('Tech');
 

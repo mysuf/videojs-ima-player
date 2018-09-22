@@ -1,4 +1,5 @@
 
+import videojs from 'video.js';
 import './ima-time-display.js';
 import './ima-tech.js';
 

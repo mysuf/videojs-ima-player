@@ -1,4 +1,8 @@
+
 import './css/videojs.ima.css';
+
+import videojs from 'video.js';
+import 'videojs-contrib-ads';
 import './ima-player.js';
 
 const registerPlugin = videojs.registerPlugin || videojs.plugin;

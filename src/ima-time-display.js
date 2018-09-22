@@ -1,3 +1,5 @@
+
+import videojs from 'video.js';
 import {formatTime} from 'video.js';
 
 const RemainingTimeDisplay = videojs.getComponent('RemainingTimeDisplay');
