@@ -1,3 +1,7 @@
+## 0.4.2
+
+* fixed ima triggering resize 
+
 ## 0.4.1
 
 * fixed vulnerabilities

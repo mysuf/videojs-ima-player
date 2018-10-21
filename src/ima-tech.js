@@ -459,6 +459,7 @@ class Ima extends Tech {
 		this.setScreenMode(dimensions.fullscreen);
 		if (this.adsManager) {
 			this.adsManager.resize(this.width, this.height,	this.screenMode);
+			this.trigger('resize');
 		}
 	}
 
