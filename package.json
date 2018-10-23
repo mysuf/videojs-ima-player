@@ -15,8 +15,7 @@
     "rollup:max": "rollup -c config/rollup.config.js",
     "rollup:min": "rollup -c config/rollup.config.min.js",
     "test": "npm-run-all test:*",
-    "test:vjs5latest": "npm install video.js@5.20.5 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
-    "test:vjs6first": "npm install video.js@6.0.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
+    "test:vjs6first": "npm install video.js@6.0.1 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
     "test:vjs6latest": "npm install video.js@6.10.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
     "test:vjs7first": "npm install video.js@7.0.0 --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
     "test:vjs7latest": "npm install video.js@latest --no-save && npm run rollup:min && npm-run-all -p -r testServer webdriver",
@@ -35,7 +34,7 @@
     "examples/"
   ],
   "dependencies": {
-    "video.js": "^5.19.2 || ^6 || ^7",
+    "video.js": "^6.0.1 || ^7",
     "videojs-contrib-ads": "^6.3.0"
   },
   "devDependencies": {

@@ -1,3 +1,13 @@
+## 0.4.4
+
+* dropped videojs v5 support
+* added support from v6.0.1 (v6.0.0 does not use setSource by mw)
+* fixed mute icon
+
+## 0.4.3
+
+* another resize fixes
+
 ## 0.4.2
 
 * fixed ima triggering resize 

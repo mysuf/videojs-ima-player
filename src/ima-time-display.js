@@ -1,6 +1,5 @@
 
 import videojs from 'video.js';
-import {formatTime} from 'video.js';
 
 const RemainingTimeDisplay = videojs.getComponent('RemainingTimeDisplay');
 
@@ -25,27 +24,6 @@ class ImaRemainingTimeDisplay extends RemainingTimeDisplay {
 			podCount = ` (${this.player_.adPosition} ${this.options_.ofLabel} ${this.player_.totalAds}): `;
 		}
 		return this.options_.adLabel + podCount;
-	}
-
-	updateContent(event) {
-		// call default for v6
-		if (super.updateTextNode_) {
-			super.updateContent.call(this, event);
-			return;
-		}
-
-		// custom fallback for v5
-		if (!this.player_.duration()) {
-			return;
-		}
-
-		var formattedTime = formatTime(this.player_.remainingTime());
-
-		if (formattedTime !== this.formattedTime_) {
-			this.formattedTime_ = formattedTime;
-			this.contentEl_.innerHTML = `<span class="vjs-control-text">${this.localize('Remaining Time')}</span> 
-				${this.getRemainingTimeLabel()}${formattedTime}`;
-		}
 	}
 }
 

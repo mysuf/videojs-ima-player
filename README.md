@@ -12,7 +12,7 @@ Requirements
 ------------
 
 - [IMA SDK](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis) js binary loaded
-- [videojs](https://github.com/videojs/video.js) >= v5.19.2 loaded (inc v6 and v7)
+- [videojs](https://github.com/videojs/video.js) >= v6.0.1 loaded
 - [videojs-contrib-ads](https://github.com/videojs/videojs-contrib-ads) >= v6.2.0 loaded
 
 Installation
@@ -41,7 +41,7 @@ Simple example
     </video>
     <!-- Load order dependent scripts -->
     <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-    <script src="/path/to/video.v5.19.2.and.later.js"></script>
+    <script src="/path/to/videojs.v6.0.1.and.later.js"></script>
     <script src="/path/to/videojs-contrib-ads.v6.2.0.and.later.js"></script>
     <script src="/path/to/videojs.ima.js"></script>
     <script>

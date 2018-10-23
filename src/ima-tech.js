@@ -242,6 +242,7 @@ class Ima extends Tech {
 
 	dispose() {
 		this.reset(true);
+		this.player_ = null; // allow object to be GCed
 
 		//Needs to be called after the IMA SDK is destroyed, otherwise there will be a null reference exception
 		super.dispose.call(this);
@@ -431,6 +432,7 @@ class Ima extends Tech {
 	triggerHasStartedEvents() {
 		this.trigger('canplay');
 		this.trigger('loadedmetadata');
+		this.trigger('volumechange');
 		this.trigger('firstplay');
 		this.trigger('play');
 		this.trigger('playing');
@@ -615,5 +617,4 @@ Ima.canPlayType = function(source) {
 	return source && source.type === 'video/ima';
 }
 
-const registerTech  = videojs.registerTech || videojs.registerComponent;
-registerTech('Ima', Ima);
+videojs.registerTech('Ima', Ima);

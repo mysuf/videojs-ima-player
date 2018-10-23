@@ -4,7 +4,6 @@ import './ima-time-display.js';
 import './ima-tech.js';
 
 const Player = videojs.getComponent('Player');
-const hasResizeManager = !!videojs.getComponent('ResizeManager');
 
 // Player is subclass of Component so is usable as part of parent player
 // plus is fully customizable and independent from content player
@@ -18,10 +17,6 @@ class ImaPlayer extends Player {
 
 		options.src = options.adTagUrl||options.adsResponse||'placeholder';
 		options.type = 'video/ima';
-
-		// volumeMenuButton as v5 fallback
-		const volumePanel = videojs.getComponent('volumePanel') ? 
-			'volumePanel' : 'volumeMenuButton'
 
 		// sets basic player
 		// passes src placeholder to tech
@@ -37,7 +32,7 @@ class ImaPlayer extends Player {
 				},
 				children: [
 					'playToggle',
-					volumePanel,
+					'volumePanel',
 					'imaRemainingTimeDisplay',
 					'progressControl',
 					'customControlSpacer',
@@ -53,7 +48,7 @@ class ImaPlayer extends Player {
 		});
 
 		this.resizeType = contentPlayer.resizeManager ? 
-			'playerresize' : 'resize';
+			'playerresize' : ['resize', 'fullscreenchange'];
 
 		this.hide();
 
@@ -94,11 +89,6 @@ class ImaPlayer extends Player {
 		});
 
 		this.contentPlayer.ready(this.handleContentResize_.bind(this));
-
-		// videojs v5 basic playerresize fix
-		if (!hasResizeManager) {
-			window.onresize = this.handleContentResize_.bind(this);
-		}
 	}
 
 	// OVERRIDES default method
