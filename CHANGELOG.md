@@ -1,3 +1,9 @@
+## 0.4.5
+
+* fixed vulnerability
+* contentchanged -> contentupdate
+* removed always true condition
+
 ## 0.4.4
 
 * dropped videojs v5 support
