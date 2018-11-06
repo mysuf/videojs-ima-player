@@ -401,10 +401,8 @@ class Ima extends Tech {
 		try {
 			this.adsManager.init(this.width, this.height, this.screenMode);
 			this.adsManager.setVolume(this.volume());
-			if (!this.adDisplayContainerInitialized) {
-				this.adDisplayContainer.initialize();
-				this.adDisplayContainer.initialized = true;
-			}
+			this.adDisplayContainer.initialize();
+			this.adDisplayContainer.initialized = true;
 		} catch (adError) {
 			this.onAdError(adError);
 		}

@@ -139,7 +139,7 @@ class ImaPlayer extends Player {
 		this.on(this.contentPlayer, 'durationchange', this.handleContentDurationChange_);
 		this.on(this.contentPlayer, 'timeupdate', this.handleContentTimeUpdate_);
 		this.on(this.contentPlayer, this.resizeType, this.handleContentResize_);
-		this.on(this.contentPlayer, 'contentchanged', this.handleContentChanged_);
+		this.on(this.contentPlayer, 'contentupdate', this.handleContentChanged_);
 		this.on(this.contentPlayer, 'readyforpreroll', this.handleContentReadyForPreroll_);
 		this.on(this.contentPlayer, 'readyforpostroll', this.handleContentReadyForPostroll_);
 	}
