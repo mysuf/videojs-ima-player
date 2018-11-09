@@ -1,2 +1,7 @@
-node_modules/
-dist/
+node_modules/*
+!node_modules/video.js/
+!node_modules/videojs-contrib-ads/
+node_modules/video.js/*
+node_modules/videojs-contrib-ads/*
+!node_modules/video.js/dist/
+!node_modules/videojs-contrib-ads/dist/

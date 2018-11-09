@@ -1,0 +1,131 @@
+/* 
+	as default videojs styles and skins try to override
+	ima player styles, important is used alot to get highest prio
+	no matter how accurate path is
+*/
+.vjs-controls-disabled .vjs-ima.vjs-controls-enabled .vjs-control-bar,
+.vjs-using-native-controls .vjs-ima.vjs-controls-enabled .vjs-control-bar,
+.vjs-error .vjs-ima.vjs-controls-enabled .vjs-control-bar {
+	display: -ms-flexbox !important;
+	display: flex !important;
+}
+.vjs-ad-loading .vjs-ima.vjs-waiting .vjs-loading-spinner {
+	display: none;
+}
+.vjs-ima {
+	position: absolute !important;
+	top: 0 !important;
+	left: 0 !important;
+	height: 100% !important;
+	width: 100% !important;
+	overflow: hidden !important;
+	font-size: 10px !important;
+    line-height: 1 !important;
+	background-color: transparent;
+}
+.vjs-ima .ima-ad-container {
+	z-index: 1111 !important;
+}
+.vjs-ima .vjs-control-bar {
+	height: 3em !important;
+	padding: 0 !important;
+	padding-bottom: 0.25em !important;
+}
+.vjs-ima .vjs-control-bar,
+.video-js.non-linear-ad .vjs-control-bar,
+.vjs-ima.vjs-waiting .vjs-loading-spinner {
+	z-index: 1112 !important;
+}
+
+.non-linear-ad .vjs-ima .ima-ad-container > div:first-child {
+	bottom: 0;
+}
+.vjs-user-active.non-linear-ad .vjs-ima,
+.vjs-paused.non-linear-ad .vjs-ima,
+.vjs-ended.non-linear-ad .vjs-ima,
+.video-js.non-linear-ad .vjs-ima.vjs-user-active {
+	height: auto !important;
+	bottom: 3em !important;
+}
+
+.vjs-ima .vjs-play-progress:before {
+	display: none !important;
+}
+
+.vjs-ima .vjs-remaining-time {
+	position: static !important;
+}
+
+.vjs-ima .vjs-remaining-time:not(.vjs-hidden) {
+	display: block !important;
+}
+
+.vjs-ima .vjs-remaining-time-display {
+	font-size: 1.05em;
+	position: relative !important;
+}
+
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+	opacity: 1 !important;
+	pointer-events: none !important;
+	background-color: transparent !important;
+}
+
+
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-remaining-time:before {
+	content: '' !important;;
+	position: absolute !important;;
+	z-index: -1 !important;;
+	top: 0 !important;
+	left: 0 !important;;
+	right: 0 !important;;
+	bottom: 0 !important;;
+	background-image: radial-gradient(350px 3em at bottom left, rgba(43,51,63,.7), transparent) !important;
+}
+
+/* move any pseudo backgrounds etc to foreground */
+.vjs-ima .vjs-control-bar:before,
+.vjs-ima .vjs-control-bar:after {
+	pointer-events: none !important;
+}
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar:before,
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar:after {
+	display: none !important;
+}
+
+.vjs-ima.vjs-has-started.vjs-playing .vjs-control-bar > * {
+	transition: all 0.3s !important;
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar > *:not(.vjs-remaining-time):not(.vjs-progress-control) {
+	width: 0 !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+}
+
+.vjs-ima.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar > .vjs-remaining-time {
+	text-shadow: 0 0 10px #000;
+}
+
+.vjs-ima .vjs-custom-control-spacer {
+	display: block !important;
+	-ms-flex: auto !important;
+	    flex: auto !important;
+}
+
+.vjs-ima.vjs-has-started .vjs-control-bar > .vjs-progress-control {
+	position: absolute !important;
+	pointer-events: none !important;
+	left: 0 !important;
+	bottom: 0 !important;
+	width: 100% !important;
+	display: block !important;
+	height: 0.25em !important;
+	top: unset !important;
+}
+
+.vjs-ima .vjs-progress-control .vjs-progress-holder {
+	margin: 0 !important;
+}
