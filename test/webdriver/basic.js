@@ -69,7 +69,7 @@ browsers.browsers.forEach(function(browser) {
       await driver.switchTo().frame(driver.findElement(
         By.css('#content_video_ima-ad-container > div:nth-child(1) > iframe')));
       let skipButton = await driver.findElement(
-        By.css('body > div.videoAdUi > div.videoAdUiSkipContainer.html5-stop-propagation > button'));
+        By.css('body > div.videoAdUi .videoAdUiSkipContainer.html5-stop-propagation > button'));
       await driver.wait(until.elementIsVisible(skipButton), 10000);
       await driver.sleep();
     });
@@ -104,7 +104,7 @@ browsers.browsers.forEach(function(browser) {
       await driver.switchTo().frame(driver.findElement(
         By.css('#content_video_ima-ad-container > div:nth-child(1) > iframe')));
       await driver.wait(until.elementIsVisible(driver.findElement(
-        By.id('GDFP'))), 10000);
+        By.css('body .nonLinearContainer > .overlayContainer > img'))), 10000);
       await driver.sleep();
     });
 
