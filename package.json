@@ -1,6 +1,6 @@
 {
   "name": "videojs-ima-player",
-  "version": "0.4.6",
+  "version": "0.4.8",
   "license": "MIT",
   "main": "./dist/videojs.ima.js",
   "author": {
@@ -33,32 +33,35 @@
     "dist/",
     "examples/"
   ],
+  "peerDependencies": {
+    "js-yaml": "^3.13.1"
+  },
   "dependencies": {
     "video.js": "^6.0.1 || ^7",
     "videojs-contrib-ads": "^6.3.0"
   },
   "devDependencies": {
+    "autoprefixer": "^9.6.0",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6",
     "babel-preset-env": "^1.6.1",
     "chromedriver": "^2.35.0",
-    "cssnano": "^4.0.3",
+    "cssnano": "^4.1.10",
     "eslint": "^4.11.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-jsdoc": "^3.2.0",
-    "geckodriver": "^1.12.2",
+    "geckodriver": "^1.16.2",
     "http-server": "^0.10.0",
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.2",
     "path": "^0.12.7",
-    "rollup": "^0.51.8",
+    "rollup": "^1.15.1",
     "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-copy": "^3.0.0",
     "rollup-plugin-json": "^2.3.0",
-    "rollup-plugin-postcss": "^1.6.2",
-    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-terser": "^5.0.0",
     "selenium-webdriver": "^3.6.0",
-    "uglify-es": "^3.1.10",
     "watch": "^1.0.2"
   },
   "keywords": [

@@ -1,3 +1,15 @@
+## 0.4.8
+
+* fixed vulnerabilities and tests
+
+## 0.4.7
+
+* check already initialized contrib-ads
+
+## 0.4.6
+
+* npm publish
+
 ## 0.4.5
 
 * fixed vulnerability
