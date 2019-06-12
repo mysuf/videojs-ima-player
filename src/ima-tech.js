@@ -522,7 +522,6 @@ class Ima extends Tech {
 	}
 
 	onContentResumeRequested() {
-		console.log('bbb')
 		// skip sdk nopostroll/nopreroll calls, we have our own
 		this.trigger('linearadended');
 	}

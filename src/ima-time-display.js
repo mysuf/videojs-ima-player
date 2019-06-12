@@ -2,9 +2,17 @@
 import videojs from 'video.js';
 
 const RemainingTimeDisplay = videojs.getComponent('RemainingTimeDisplay');
+const TimeDisplay = videojs.getComponent('TimeDisplay');
 
 class ImaRemainingTimeDisplay extends RemainingTimeDisplay {
 	// modified version of TimeDisplay method
+
+	createEl() {
+		// prefix "-" in later versions of vjs7
+		// we need to call grandparent
+		return TimeDisplay.prototype.createEl.call(this);
+	}
+
 	updateTextNode_() {
 		if (!this.contentEl_) {
 			return;
@@ -14,7 +22,7 @@ class ImaRemainingTimeDisplay extends RemainingTimeDisplay {
 			this.contentEl_.removeChild(this.contentEl_.firstChild);
 		}
 
-		this.textNode_ = document.createTextNode(this.getRemainingTimeLabel() + (this.formattedTime_||'-0:00').substr(1));
+		this.textNode_ = document.createTextNode(this.getRemainingTimeLabel() + (this.formattedTime_||'-0:00').replace("-",""));
 		this.contentEl_.appendChild(this.textNode_);
 	}
 
