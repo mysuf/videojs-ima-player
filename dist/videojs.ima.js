@@ -1153,9 +1153,6 @@
 		}, {
 			key: 'handleTechNonLinearAdStarted_',
 			value: function handleTechNonLinearAdStarted_() {
-				if (!this.contentPlayer.ads.inAdBreak()) {
-					this.skipLinearAdMode();
-				}
 				this.controls(false);
 				this.contentPlayer.addClass('non-linear-ad');
 				this.show();
