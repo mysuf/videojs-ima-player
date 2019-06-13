@@ -135,7 +135,7 @@
 
 	videojs.registerComponent('imaRemainingTimeDisplay', ImaRemainingTimeDisplay);
 
-	var version = "0.4.8";
+	var version = "0.4.9";
 
 	var Tech = videojs.getTech('Tech');
 
@@ -831,7 +831,8 @@
 			_this.adPosition = 0;
 			_this.totalAds = 0;
 			_this.adsReadyTriggered = false;
-			_this.postrollScheduled = false;
+			_this.noPreroll = false;
+			_this.noPostroll = false;
 
 			// we wont toggle content player controls if controls disabled
 			_this.contentControlsDisabled = !contentPlayer.controls();
@@ -911,7 +912,8 @@
 			key: 'reset',
 			value: function reset() {
 				this.setContentPlayerToDefault();
-				this.postrollScheduled = false;
+				this.noPreroll = false;
+				this.noPostroll = false;
 				get(ImaPlayer.prototype.__proto__ || Object.getPrototypeOf(ImaPlayer.prototype), 'reset', this).call(this);
 				this.handleTechAdsReady_();
 			}
@@ -1018,27 +1020,32 @@
 		}, {
 			key: 'handleContentReadyForPreroll_',
 			value: function handleContentReadyForPreroll_() {
+				if (this.noPreroll) {
+					this.skipLinearAdMode();
+				}
 				this.techCall_('preroll');
+				this.noPreroll = true;
 			}
 		}, {
 			key: 'handleContentReadyForPostroll_',
 			value: function handleContentReadyForPostroll_() {
 				// triggers only once per source
-				if (!this.postrollScheduled) {
+				if (this.noPostroll) {
 					this.skipLinearAdMode();
 				}
 				if (!this.contentEnded) {
 					this.contentEnded = true;
 					this.techCall_('postroll');
 				}
-				this.postrollScheduled = false;
+				this.noPostroll = true;
 			}
 		}, {
 			key: 'handleContentChanged_',
 			value: function handleContentChanged_() {
 				this.setContentPlayerToDefault();
 				this.contentEnded = false;
-				this.postrollScheduled = false;
+				this.noPreroll = false;
+				this.noPostroll = false;
 				this.adsReadyTriggered = false;
 				this.imaOptions.contentMediaElement = this.getContentTechElement();
 				this.src(this.imaOptions);
@@ -1097,7 +1104,8 @@
 		}, {
 			key: 'handleTechAdsReady_',
 			value: function handleTechAdsReady_(e, cuePoints) {
-				this.postrollScheduled = cuePoints && cuePoints.includes(-1);
+				this.noPreroll = !cuePoints;
+				this.noPostroll = !cuePoints || !cuePoints.includes(-1);
 				if (!this.adsReadyTriggered) {
 					this.adsReadyTriggered = true;
 					this.contentPlayer.trigger('adsready');

@@ -63,7 +63,8 @@ class ImaPlayer extends Player {
 		this.adPosition = 0;
 		this.totalAds = 0;
 		this.adsReadyTriggered = false;
-		this.postrollScheduled = false;
+		this.noPreroll = false;
+		this.noPostroll = false;
 
 		// we wont toggle content player controls if controls disabled
 		this.contentControlsDisabled = !contentPlayer.controls();
@@ -126,7 +127,8 @@ class ImaPlayer extends Player {
 	// there are aditional jobs that needs to be done
 	reset() {
 		this.setContentPlayerToDefault();
-		this.postrollScheduled = false;
+		this.noPreroll = false;
+		this.noPostroll = false;
 		super.reset.call(this);
 		this.handleTechAdsReady_();
 	}
@@ -216,25 +218,30 @@ class ImaPlayer extends Player {
 	/* THESE METHODS HANDLES CONTENT PLAYER */
 
 	handleContentReadyForPreroll_() {
+		if (this.noPreroll) {
+			this.skipLinearAdMode();
+		}
 		this.techCall_('preroll');
+		this.noPreroll = true;
 	}
 
 	handleContentReadyForPostroll_() {
 		// triggers only once per source
-		if (!this.postrollScheduled) {
+		if (this.noPostroll) {
 			this.skipLinearAdMode();
 		}
 		if (!this.contentEnded) {
 			this.contentEnded = true;
 			this.techCall_('postroll');
 		}
-		this.postrollScheduled = false;
+		this.noPostroll = true;
 	}
 
 	handleContentChanged_() {
 		this.setContentPlayerToDefault();
 		this.contentEnded = false;
-		this.postrollScheduled = false;
+		this.noPreroll = false;
+		this.noPostroll = false;
 		this.adsReadyTriggered = false;
 		this.imaOptions.contentMediaElement = this.getContentTechElement();
 		this.src(this.imaOptions);
@@ -278,7 +285,8 @@ class ImaPlayer extends Player {
 	/* THESE METHODS HANDLES IMA TECH */
 
 	handleTechAdsReady_(e, cuePoints) {
-		this.postrollScheduled = cuePoints && cuePoints.includes(-1);
+		this.noPreroll = !cuePoints;
+		this.noPostroll = !cuePoints || !cuePoints.includes(-1);
 		if (!this.adsReadyTriggered) {
 			this.adsReadyTriggered = true;
 			this.contentPlayer.trigger('adsready');
