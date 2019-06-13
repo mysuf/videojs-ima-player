@@ -1,3 +1,7 @@
+## 0.4.9
+
+* fixed timeout for preroll/postroll if no ads
+
 ## 0.4.8
 
 * fixed vulnerabilities and tests
