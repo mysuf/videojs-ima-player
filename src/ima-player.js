@@ -163,8 +163,16 @@ class ImaPlayer extends Player {
 	}
 
 	getContentTechElement() {
-		if (this.contentPlayer.techName_ !== "Html5" && !this.contentPlayer.tech_.el_.canPlayType) {
-			this.contentPlayer.tech_.el_.canPlayType = () => false;
+		if (this.contentPlayer.techName_ !== "Html5") {
+			if (!this.contentPlayer.tech_.el_.canPlayType) {
+				this.contentPlayer.tech_.el_.canPlayType = () => false;
+			}
+			if (!this.contentPlayer.tech_.el_.pause) {
+				this.contentPlayer.tech_.el_.pause = () => false;
+			}
+			if (!this.contentPlayer.tech_.el_.play) {
+				this.contentPlayer.tech_.el_.play = () => false;
+			}
 		}
 		return this.contentPlayer.tech_.el_;
 	}
@@ -314,15 +322,15 @@ class ImaPlayer extends Player {
 	}
 
 	handleTechLinearAdEnded_() {
-		if (!this.contentPlayer.ads.inAdBreak()) {
+		if (this.contentPlayer.ads.inAdBreak()) {
+			this.contentPlayer.volume(this.volume());
+			this.contentPlayer.muted(this.muted());
+			this.contentPlayer.ads.endLinearAdMode()
+		} else {
 			// covers silent errors like skippable on IOS
 			this.skipLinearAdMode();
-			return;
 		}
 
-		this.contentPlayer.volume(this.volume());
-		this.contentPlayer.muted(this.muted());
-		this.contentPlayer.ads.endLinearAdMode();
 		this.controls(false);
 		this.setContentControls(true);
 		this.hide();
