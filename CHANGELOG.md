@@ -1,3 +1,7 @@
+## 0.5.0
+
+* fixed resume after skippable on ios
+
 ## 0.4.9
 
 * fixed timeout for preroll/postroll if no ads
