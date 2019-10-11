@@ -1,3 +1,7 @@
+## 0.5.1
+
+* hotfix to prevent resume if content not started
+
 ## 0.5.0
 
 * fixed resume after skippable on ios
