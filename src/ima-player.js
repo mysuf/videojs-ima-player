@@ -65,6 +65,7 @@ class ImaPlayer extends Player {
 		this.adsReadyTriggered = false;
 		this.noPreroll = false;
 		this.noPostroll = false;
+		this.contentHasStarted_ = false;
 
 		// we wont toggle content player controls if controls disabled
 		this.contentControlsDisabled = !contentPlayer.controls();
@@ -200,13 +201,13 @@ class ImaPlayer extends Player {
 	/* THESE METHODS CONTROLS CONTENT PLAYER */
 
 	resumeContent() {
-		if (!this.contentEnded) {
+		if (this.contentHasStarted_ && !this.contentEnded) {
 			this.contentPlayer.play();
 		}
 	}
 
 	pauseContent() {
-		if (!this.contentEnded) {
+		if (this.contentHasStarted_ && !this.contentEnded) {
 			this.contentPlayer.pause();
 		}
 	}
@@ -226,6 +227,7 @@ class ImaPlayer extends Player {
 	/* THESE METHODS HANDLES CONTENT PLAYER */
 
 	handleContentReadyForPreroll_() {
+		this.contentHasStarted_ = true;
 		if (this.noPreroll) {
 			this.skipLinearAdMode();
 		}
