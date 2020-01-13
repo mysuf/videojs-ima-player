@@ -93,7 +93,6 @@ class VideoPlayer extends React.Component {
 }
 
 var videojsOptions = {
-  poster: "../posters/bbb_poster.jpg",
   controls: true,
   preload: "auto",
   width: 640,

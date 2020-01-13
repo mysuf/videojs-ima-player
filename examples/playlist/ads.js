@@ -11,11 +11,9 @@ var Ads = function() {
   };
 
   this.contents = [{
-      src: '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      poster: '../posters/bbb_poster.jpg',
+      src: '//commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
     },{
-      src: '//s0.2mdn.net/4253510/google_ddm_animation_480P.mp4',
-      poster: '../posters/stock_poster.jpg',
+      src: '//s0.2mdn.net/4253510/google_ddm_animation_480P.mp4'
   }]
 
   this.console = document.getElementById('ima-sample-console');
@@ -62,7 +60,6 @@ Ads.prototype.onAdEvent = function(event) {
 Ads.prototype.onPlaylistItemClick = function(event) {
   if (!this.player.ads.inAdBreak()) {
     this.player.src(this.contents[event.target.id].src);
-    this.player.poster(this.contents[event.target.id].poster);
   }
   this.playlistItemClicked = true;
 };
