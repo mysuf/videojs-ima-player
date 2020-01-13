@@ -4,11 +4,11 @@
 
 ## 0.5.1
 
-* fix resume ad
+* hotfix to prevent resume if content not started
 
 ## 0.5.0
 
-* minor change
+* fixed resume after skippable on ios
 
 ## 0.4.9
 
