@@ -1,3 +1,15 @@
+## 0.5.2
+
+* removed poster to reduce size
+
+## 0.5.1
+
+* fix resume ad
+
+## 0.5.0
+
+* minor change
+
 ## 0.4.9
 
 * fixed timeout for preroll/postroll if no ads
