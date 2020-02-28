@@ -1,3 +1,15 @@
+## 0.5.2
+
+* removed poster to reduce size
+
+## 0.5.1
+
+* hotfix to prevent resume if content not started
+
+## 0.5.0
+
+* fixed resume after skippable on ios
+
 ## 0.4.9
 
 * fixed timeout for preroll/postroll if no ads

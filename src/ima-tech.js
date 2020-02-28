@@ -80,7 +80,7 @@ class Ima extends Tech {
 	}
 
 	currentSrc() {
-		return this.source.adTagUrl||this.source.adResponse||'';
+		return this.source.adTagUrl||this.source.adsResponse||'';
 	}
 
 	setSource(source, init) {
@@ -92,7 +92,7 @@ class Ima extends Tech {
 		if (!init) this.reset();
 		this.trigger('loadstart'); // resets player classes
 
-		if (!this.source.adTagUrl && !this.source.adResponse) {
+		if (!this.source.adTagUrl && !this.source.adsResponse) {
 			// if no ads are provided we left tech reseted
 			// and let content know that no ads will be played
 			if (init) this.triggerReady();
