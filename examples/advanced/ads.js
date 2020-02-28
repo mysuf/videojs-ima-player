@@ -24,7 +24,8 @@ var Ads = function() {
     google.ima.AdEvent.Type.MIDPOINT,
     google.ima.AdEvent.Type.PAUSED,
     google.ima.AdEvent.Type.STARTED,
-    google.ima.AdEvent.Type.THIRD_QUARTILE
+    google.ima.AdEvent.Type.THIRD_QUARTILE,
+    google.ima.AdEvent.Type.VOLUME_CHANGED
   ];
   for (var index = 0; index < events.length; index++) {
     this.player.ima.on(events[index], this.onAdEvent.bind(this));
