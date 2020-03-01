@@ -1,3 +1,8 @@
+## 0.5.3
+
+* fixed volume/mute bug after IMA SDK new release
+* updated some packages
+
 ## 0.5.2
 
 * removed poster to reduce size

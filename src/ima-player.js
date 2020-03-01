@@ -84,6 +84,7 @@ class ImaPlayer extends Player {
 				mediaElement: this.getContentTechElement(),
 				width: contentPlayer.currentWidth(),
 				height: contentPlayer.currentHeight(),
+				volume: contentPlayer.volume(),
 				fullscreen: contentPlayer.isFullscreen(),
 				autoplay: contentPlayer.autoplay(),
 				muted: contentPlayer.muted()
