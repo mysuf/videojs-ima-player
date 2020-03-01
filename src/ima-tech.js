@@ -23,6 +23,8 @@ class Ima extends Tech {
 		this.width = 0;
 		this.heght = 0;
 		this.screenMode = "";
+		this.volume_ = 1;
+		this.muted_ = false;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
@@ -46,7 +48,7 @@ class Ima extends Tech {
 			nonLinearWidth: 0,
 			nonLinearHeight: 0,
 			adWillAutoPlay: false,
-			adWillAutoMuted: false,
+			adWillPlayMuted: false,
 			showCountdown: true,
 			adsRenderingSettings: {
 				loadVideoTimeout: options.timeout||5000
@@ -185,23 +187,23 @@ class Ima extends Tech {
 	}
 
 	volume() {
-		return this.adsManager ? this.adsManager.getVolume() : 0;
+		return this.adsManager ? this.adsManager.getVolume() : this.volume_;
 	}
 
 	setVolume(vol) {
-		this.volume_ = vol;
-		this.adsManager && this.adsManager.setVolume(vol) || '';
+		if (vol === this.volume_) return;
+
+		this.adsManager && this.adsManager.setVolume(vol);
 	}
 
 	muted() {
-		return !!this.muted_;
+		return this.adsManager ? !this.adsManager.getVolume() : this.muted_;
 	}
 
 	setMuted(mute) {
-		if (!this.adsManager) return;
+		if (mute == this.muted_) return;
 
-		this.adsManager.setVolume(!mute && this.volume_ ? this.volume_ : 0);
-		this.muted_ = !!mute;
+		this.adsManager && this.adsManager.setVolume(!mute ? this.volume_ : 0);
 	}
 
 	buffered() {
@@ -255,6 +257,8 @@ class Ima extends Tech {
 		this.source.contentMediaElement = contentInfo.mediaElement;
 		this.source.adWillAutoPlay = contentInfo.autoplay;
 		this.source.adWillPlayMuted = contentInfo.muted;
+		this.muted_ = contentInfo.muted;
+		this.volume_ = contentInfo.volume;
 		this.resize(contentInfo);
 		this.setSource(this.source, true);
 	}
@@ -400,9 +404,8 @@ class Ima extends Tech {
 	initAdsManager() {
 		try {
 			this.adsManager.init(this.width, this.height, this.screenMode);
-			this.adsManager.setVolume(this.volume());
+			this.adsManager.setVolume(!this.muted_ ? this.volume_ : 0);
 			this.adDisplayContainer.initialize();
-			this.adDisplayContainer.initialized = true;
 		} catch (adError) {
 			this.onAdError(adError);
 		}
@@ -579,10 +582,12 @@ class Ima extends Tech {
 	}
 
 	onVolumeChanged() {
+		this.volume_ = this.volume() || this.volume_;
 		this.trigger('volumechange');
 	}
 
 	onVolumeMuted() {
+		this.muted_ = this.muted();
 		this.trigger('volumechange');
 	}
 
