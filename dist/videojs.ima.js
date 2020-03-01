@@ -2,7 +2,7 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('video.js'), require('videojs-contrib-ads')) :
 	typeof define === 'function' && define.amd ? define(['video.js', 'videojs-contrib-ads'], factory) :
 	(global = global || self, factory(global.videojs));
-}(this, function (videojs) { 'use strict';
+}(this, (function (videojs) { 'use strict';
 
 	videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
 
@@ -135,7 +135,7 @@
 
 	videojs.registerComponent('imaRemainingTimeDisplay', ImaRemainingTimeDisplay);
 
-	var version = "0.4.9";
+	var version = "0.5.3";
 
 	var Tech = videojs.getTech('Tech');
 
@@ -162,6 +162,8 @@
 			_this.width = 0;
 			_this.heght = 0;
 			_this.screenMode = "";
+			_this.volume_ = 1;
+			_this.muted_ = false;
 
 			// initialized later via handleLateInit_ method
 			// called by ImaPlayer
@@ -188,7 +190,7 @@
 					nonLinearWidth: 0,
 					nonLinearHeight: 0,
 					adWillAutoPlay: false,
-					adWillAutoMuted: false,
+					adWillPlayMuted: false,
 					showCountdown: true,
 					adsRenderingSettings: {
 						loadVideoTimeout: options.timeout || 5000
@@ -229,7 +231,7 @@
 		}, {
 			key: 'currentSrc',
 			value: function currentSrc() {
-				return this.source.adTagUrl || this.source.adResponse || '';
+				return this.source.adTagUrl || this.source.adsResponse || '';
 			}
 		}, {
 			key: 'setSource',
@@ -242,7 +244,7 @@
 				if (!init) this.reset();
 				this.trigger('loadstart'); // resets player classes
 
-				if (!this.source.adTagUrl && !this.source.adResponse) {
+				if (!this.source.adTagUrl && !this.source.adsResponse) {
 					// if no ads are provided we left tech reseted
 					// and let content know that no ads will be played
 					if (init) this.triggerReady();
@@ -349,26 +351,26 @@
 		}, {
 			key: 'volume',
 			value: function volume() {
-				return this.adsManager ? this.adsManager.getVolume() : 0;
+				return this.adsManager ? this.adsManager.getVolume() : this.volume_;
 			}
 		}, {
 			key: 'setVolume',
 			value: function setVolume(vol) {
-				this.volume_ = vol;
-				this.adsManager && this.adsManager.setVolume(vol) || '';
+				if (vol === this.volume_) return;
+
+				this.adsManager && this.adsManager.setVolume(vol);
 			}
 		}, {
 			key: 'muted',
 			value: function muted() {
-				return !!this.muted_;
+				return this.adsManager ? !this.adsManager.getVolume() : this.muted_;
 			}
 		}, {
 			key: 'setMuted',
 			value: function setMuted(mute) {
-				if (!this.adsManager) return;
+				if (mute == this.muted_) return;
 
-				this.adsManager.setVolume(!mute && this.volume_ ? this.volume_ : 0);
-				this.muted_ = !!mute;
+				this.adsManager && this.adsManager.setVolume(!mute ? this.volume_ : 0);
 			}
 		}, {
 			key: 'buffered',
@@ -431,6 +433,8 @@
 				this.source.contentMediaElement = contentInfo.mediaElement;
 				this.source.adWillAutoPlay = contentInfo.autoplay;
 				this.source.adWillPlayMuted = contentInfo.muted;
+				this.muted_ = contentInfo.muted;
+				this.volume_ = contentInfo.volume;
 				this.resize(contentInfo);
 				this.setSource(this.source, true);
 			}
@@ -528,9 +532,8 @@
 			value: function initAdsManager() {
 				try {
 					this.adsManager.init(this.width, this.height, this.screenMode);
-					this.adsManager.setVolume(this.volume());
+					this.adsManager.setVolume(!this.muted_ ? this.volume_ : 0);
 					this.adDisplayContainer.initialize();
-					this.adDisplayContainer.initialized = true;
 				} catch (adError) {
 					this.onAdError(adError);
 				}
@@ -732,11 +735,13 @@
 		}, {
 			key: 'onVolumeChanged',
 			value: function onVolumeChanged() {
+				this.volume_ = this.volume() || this.volume_;
 				this.trigger('volumechange');
 			}
 		}, {
 			key: 'onVolumeMuted',
 			value: function onVolumeMuted() {
+				this.muted_ = this.muted();
 				this.trigger('volumechange');
 			}
 		}, {
@@ -833,6 +838,7 @@
 			_this.adsReadyTriggered = false;
 			_this.noPreroll = false;
 			_this.noPostroll = false;
+			_this.contentHasStarted_ = false;
 
 			// we wont toggle content player controls if controls disabled
 			_this.contentControlsDisabled = !contentPlayer.controls();
@@ -851,6 +857,7 @@
 					mediaElement: _this.getContentTechElement(),
 					width: contentPlayer.currentWidth(),
 					height: contentPlayer.currentHeight(),
+					volume: contentPlayer.volume(),
 					fullscreen: contentPlayer.isFullscreen(),
 					autoplay: contentPlayer.autoplay(),
 					muted: contentPlayer.muted()
@@ -953,10 +960,22 @@
 		}, {
 			key: 'getContentTechElement',
 			value: function getContentTechElement() {
-				if (this.contentPlayer.techName_ !== "Html5" && !this.contentPlayer.tech_.el_.canPlayType) {
-					this.contentPlayer.tech_.el_.canPlayType = function () {
-						return false;
-					};
+				if (this.contentPlayer.techName_ !== "Html5") {
+					if (!this.contentPlayer.tech_.el_.canPlayType) {
+						this.contentPlayer.tech_.el_.canPlayType = function () {
+							return false;
+						};
+					}
+					if (!this.contentPlayer.tech_.el_.pause) {
+						this.contentPlayer.tech_.el_.pause = function () {
+							return false;
+						};
+					}
+					if (!this.contentPlayer.tech_.el_.play) {
+						this.contentPlayer.tech_.el_.play = function () {
+							return false;
+						};
+					}
 				}
 				return this.contentPlayer.tech_.el_;
 			}
@@ -989,14 +1008,14 @@
 		}, {
 			key: 'resumeContent',
 			value: function resumeContent() {
-				if (!this.contentEnded) {
+				if (this.contentHasStarted_ && !this.contentEnded) {
 					this.contentPlayer.play();
 				}
 			}
 		}, {
 			key: 'pauseContent',
 			value: function pauseContent() {
-				if (!this.contentEnded) {
+				if (this.contentHasStarted_ && !this.contentEnded) {
 					this.contentPlayer.pause();
 				}
 			}
@@ -1020,6 +1039,7 @@
 		}, {
 			key: 'handleContentReadyForPreroll_',
 			value: function handleContentReadyForPreroll_() {
+				this.contentHasStarted_ = true;
 				if (this.noPreroll) {
 					this.skipLinearAdMode();
 				}
@@ -1136,15 +1156,15 @@
 		}, {
 			key: 'handleTechLinearAdEnded_',
 			value: function handleTechLinearAdEnded_() {
-				if (!this.contentPlayer.ads.inAdBreak()) {
+				if (this.contentPlayer.ads.inAdBreak()) {
+					this.contentPlayer.volume(this.volume());
+					this.contentPlayer.muted(this.muted());
+					this.contentPlayer.ads.endLinearAdMode();
+				} else {
 					// covers silent errors like skippable on IOS
 					this.skipLinearAdMode();
-					return;
 				}
 
-				this.contentPlayer.volume(this.volume());
-				this.contentPlayer.muted(this.muted());
-				this.contentPlayer.ads.endLinearAdMode();
 				this.controls(false);
 				this.setContentControls(true);
 				this.hide();
@@ -1197,4 +1217,4 @@
 		this.ima = this.addChild('imaPlayer', options);
 	});
 
-}));
+})));
