@@ -187,7 +187,7 @@ class Ima extends Tech {
 	}
 
 	volume() {
-		return this.adsManager ? this.adsManager.getVolume() : this.volume_;
+		return this.volume_;
 	}
 
 	setVolume(vol) {
@@ -197,7 +197,7 @@ class Ima extends Tech {
 	}
 
 	muted() {
-		return this.adsManager ? !this.adsManager.getVolume() : this.muted_;
+		return this.muted_;
 	}
 
 	setMuted(mute) {
@@ -582,12 +582,16 @@ class Ima extends Tech {
 	}
 
 	onVolumeChanged() {
-		this.volume_ = this.volume() || this.volume_;
-		this.trigger('volumechange');
+		const currentVolume = this.adsManager.getVolume();
+		if (currentVolume) {
+			this.volume_ = currentVolume;
+			this.muted_ = false;
+			this.trigger('volumechange');
+		}
 	}
 
 	onVolumeMuted() {
-		this.muted_ = this.muted();
+		this.muted_ = true;
 		this.trigger('volumechange');
 	}
 
