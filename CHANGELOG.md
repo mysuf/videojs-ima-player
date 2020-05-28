@@ -1,3 +1,7 @@
+## 0.5.5
+
+* fixed unresponsive volume ad controls with moatwrapper
+
 ## 0.5.4
 
 * fixed another mute/volume mess
