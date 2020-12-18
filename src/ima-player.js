@@ -78,7 +78,7 @@ class ImaPlayer extends Player {
 		this.trackContentEvents();
 
 		// wait a tick to get content info
-		this.setTimeout(() => {
+		contentPlayer.ready(() => {
 			this.tech_.handleLateInit_({
 				imaPlayer: this,
 				mediaElement: this.getContentTechElement(),
@@ -89,9 +89,8 @@ class ImaPlayer extends Player {
 				autoplay: contentPlayer.autoplay(),
 				muted: contentPlayer.muted()
 			});
+			this.handleContentResize_();
 		});
-
-		this.contentPlayer.ready(this.handleContentResize_.bind(this));
 	}
 
 	// OVERRIDES default method

@@ -187,23 +187,34 @@ class Ima extends Tech {
 	}
 
 	volume() {
-		return this.adsManager ? this.adsManager.getVolume() : this.volume_;
+		return this.volume_;
+	}
+
+	// throttle volume change (to reduce event emits)
+	setManagerVolume(vol) {
+		clearTimeout(this.volTimeout);
+		this.volTimeout = setTimeout(() => this.adsManager && this.adsManager.setVolume(vol), 250);
 	}
 
 	setVolume(vol) {
 		if (vol === this.volume_) return;
-
-		this.adsManager && this.adsManager.setVolume(vol);
+	
+		this.volume_ = vol;
+		this.muted_ = !vol;
+		this.trigger('volumechange');
+		this.setManagerVolume(vol);
 	}
 
 	muted() {
-		return this.adsManager ? !this.adsManager.getVolume() : this.muted_;
+		return this.muted_;
 	}
 
 	setMuted(mute) {
 		if (mute == this.muted_) return;
 
-		this.adsManager && this.adsManager.setVolume(!mute ? this.volume_ : 0);
+		this.muted_ = mute;
+		this.trigger('volumechange');
+		this.setManagerVolume(!mute ? this.volume_ : 0);
 	}
 
 	buffered() {
@@ -581,15 +592,9 @@ class Ima extends Tech {
 		this.pause();
 	}
 
-	onVolumeChanged() {
-		this.volume_ = this.volume() || this.volume_;
-		this.trigger('volumechange');
-	}
+	onVolumeChanged() {}
 
-	onVolumeMuted() {
-		this.muted_ = this.muted();
-		this.trigger('volumechange');
-	}
+	onVolumeMuted() {}
 
 	onContentCompleted() {
 		this.adsLoader && this.adsLoader.contentComplete()||'';
