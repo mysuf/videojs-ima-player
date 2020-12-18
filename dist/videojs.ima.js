@@ -135,7 +135,7 @@
 
 	videojs.registerComponent('imaRemainingTimeDisplay', ImaRemainingTimeDisplay);
 
-	var version = "0.5.3";
+	var version = "0.5.4";
 
 	var Tech = videojs.getTech('Tech');
 
@@ -351,7 +351,7 @@
 		}, {
 			key: 'volume',
 			value: function volume() {
-				return this.adsManager ? this.adsManager.getVolume() : this.volume_;
+				return this.volume_;
 			}
 		}, {
 			key: 'setVolume',
@@ -363,7 +363,7 @@
 		}, {
 			key: 'muted',
 			value: function muted() {
-				return this.adsManager ? !this.adsManager.getVolume() : this.muted_;
+				return this.muted_;
 			}
 		}, {
 			key: 'setMuted',
@@ -735,13 +735,17 @@
 		}, {
 			key: 'onVolumeChanged',
 			value: function onVolumeChanged() {
-				this.volume_ = this.volume() || this.volume_;
-				this.trigger('volumechange');
+				var currentVolume = this.adsManager.getVolume();
+				if (currentVolume) {
+					this.volume_ = currentVolume;
+					this.muted_ = false;
+					this.trigger('volumechange');
+				}
 			}
 		}, {
 			key: 'onVolumeMuted',
 			value: function onVolumeMuted() {
-				this.muted_ = this.muted();
+				this.muted_ = true;
 				this.trigger('volumechange');
 			}
 		}, {
