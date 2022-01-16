@@ -1,8 +1,7 @@
+import videojs from "video.js";
 
-import videojs from 'video.js';
-
-const RemainingTimeDisplay = videojs.getComponent('RemainingTimeDisplay');
-const TimeDisplay = videojs.getComponent('TimeDisplay');
+const RemainingTimeDisplay = videojs.getComponent("RemainingTimeDisplay");
+const TimeDisplay = videojs.getComponent("TimeDisplay");
 
 class ImaRemainingTimeDisplay extends RemainingTimeDisplay {
 	// modified version of TimeDisplay method
@@ -22,12 +21,15 @@ class ImaRemainingTimeDisplay extends RemainingTimeDisplay {
 			this.contentEl_.removeChild(this.contentEl_.firstChild);
 		}
 
-		this.textNode_ = document.createTextNode(this.getRemainingTimeLabel() + (this.formattedTime_||'-0:00').replace("-",""));
+		this.textNode_ = document.createTextNode(
+			this.getRemainingTimeLabel() +
+				(this.formattedTime_ || "-0:00").replace("-", "")
+		);
 		this.contentEl_.appendChild(this.textNode_);
 	}
 
 	getRemainingTimeLabel() {
-		let podCount = ': ';
+		let podCount = ": ";
 		if (this.player_.totalAds > 1) {
 			podCount = ` (${this.player_.adPosition} ${this.options_.ofLabel} ${this.player_.totalAds}): `;
 		}
@@ -35,4 +37,4 @@ class ImaRemainingTimeDisplay extends RemainingTimeDisplay {
 	}
 }
 
-videojs.registerComponent('imaRemainingTimeDisplay', ImaRemainingTimeDisplay);
+videojs.registerComponent("imaRemainingTimeDisplay", ImaRemainingTimeDisplay);

@@ -1,9 +1,8 @@
+import videojs from "video.js";
+import "./ima-time-display.js";
+import "./ima-tech.js";
 
-import videojs from 'video.js';
-import './ima-time-display.js';
-import './ima-tech.js';
-
-const Player = videojs.getComponent('Player');
+const Player = videojs.getComponent("Player");
 
 // Player is subclass of Component so is usable as part of parent player
 // plus is fully customizable and independent from content player
@@ -11,12 +10,12 @@ class ImaPlayer extends Player {
 	constructor(contentPlayer, options) {
 		// serve tag placeholder to player
 
-		const adPlayerContainer = document.createElement('div');
-		adPlayerContainer.id = contentPlayer.id_ + '_ima';
+		const adPlayerContainer = document.createElement("div");
+		adPlayerContainer.id = contentPlayer.id_ + "_ima";
 		adPlayerContainer.className = "vjs-ima video-js";
 
-		options.src = options.adTagUrl||options.adsResponse||'placeholder';
-		options.type = 'video/ima';
+		options.src = options.adTagUrl || options.adsResponse || "placeholder";
+		options.type = "video/ima";
 
 		// sets basic player
 		// passes src placeholder to tech
@@ -27,28 +26,29 @@ class ImaPlayer extends Player {
 			techOrder: ["ima"],
 			controlBar: {
 				imaRemainingTimeDisplay: {
-					adLabel: options.adLabel||'Advertisement',
-					ofLabel: options.ofLabel||'of'
+					adLabel: options.adLabel || "Advertisement",
+					ofLabel: options.ofLabel || "of",
 				},
 				children: [
-					'playToggle',
-					'volumePanel',
-					'imaRemainingTimeDisplay',
-					'progressControl',
-					'customControlSpacer',
-					'fullscreenToggle'
+					"playToggle",
+					"volumePanel",
+					"imaRemainingTimeDisplay",
+					"progressControl",
+					"customControlSpacer",
+					"fullscreenToggle",
 				],
 			},
 			children: [
-				'mediaLoader',
-				'loadingSpinner',
-				'controlBar',
-				'errorDisplay'
-			]
+				"mediaLoader",
+				"loadingSpinner",
+				"controlBar",
+				"errorDisplay",
+			],
 		});
 
-		this.resizeType = contentPlayer.resizeManager ? 
-			'playerresize' : ['resize', 'fullscreenchange'];
+		this.resizeType = contentPlayer.resizeManager
+			? "playerresize"
+			: ["resize", "fullscreenchange"];
 
 		this.hide();
 
@@ -72,22 +72,26 @@ class ImaPlayer extends Player {
 		this.contentPlayer = contentPlayer;
 
 		this.isMobile = videojs.browser.IS_IOS || videojs.browser.IS_ANDROID;
-		if (this.isMobile) this.addClass('vjs-ima-mobile');
+		if (this.isMobile) this.addClass("vjs-ima-mobile");
 
 		this.setRemainingTimeVisibility();
 		this.trackContentEvents();
 
 		// wait a tick to get content info
 		contentPlayer.ready(() => {
+			const mediaElement = this.getContentTechElement();
+			if (!mediaElement) {
+				return;
+			}
 			this.tech_.handleLateInit_({
 				imaPlayer: this,
-				mediaElement: this.getContentTechElement(),
+				mediaElement,
 				width: contentPlayer.currentWidth(),
 				height: contentPlayer.currentHeight(),
 				volume: contentPlayer.volume(),
 				fullscreen: contentPlayer.isFullscreen(),
 				autoplay: contentPlayer.autoplay(),
-				muted: contentPlayer.muted()
+				muted: contentPlayer.muted(),
 			});
 			this.handleContentResize_();
 		});
@@ -113,15 +117,15 @@ class ImaPlayer extends Player {
 	exitFullscreen() {
 		if (this.contentPlayer.isFullscreen()) {
 			this.contentPlayer.exitFullscreen();
-		}		
+		}
 	}
 
 	// OVERRIDES default method
 	// we wont reset waiting on timeupdate
 	// because tracker must run also during ads
 	handleTechWaiting_() {
-		this.addClass('vjs-waiting');
-		this.trigger('waiting');	
+		this.addClass("vjs-waiting");
+		this.trigger("waiting");
 	}
 
 	// OVERRIDES default method
@@ -137,25 +141,53 @@ class ImaPlayer extends Player {
 	/* THESE METHODS ARE PART OF TECH INITIALIZATION */
 
 	trackContentEvents() {
-		this.on(this.contentPlayer, 'seek', this.handleContentSeek_);
-		this.on(this.contentPlayer, 'seekend', this.handleContentSeekEnd_);
-		this.on(this.contentPlayer, 'durationchange', this.handleContentDurationChange_);
-		this.on(this.contentPlayer, 'timeupdate', this.handleContentTimeUpdate_);
+		this.on(this.contentPlayer, "seek", this.handleContentSeek_);
+		this.on(this.contentPlayer, "seeked", this.handleContentSeeked_);
+		this.on(
+			this.contentPlayer,
+			"durationchange",
+			this.handleContentDurationChange_
+		);
+		this.on(
+			this.contentPlayer,
+			"timeupdate",
+			this.handleContentTimeUpdate_
+		);
 		this.on(this.contentPlayer, this.resizeType, this.handleContentResize_);
-		this.on(this.contentPlayer, 'contentupdate', this.handleContentChanged_);
-		this.on(this.contentPlayer, 'readyforpreroll', this.handleContentReadyForPreroll_);
-		this.on(this.contentPlayer, 'readyforpostroll', this.handleContentReadyForPostroll_);
+		this.on(
+			this.contentPlayer,
+			"contentupdate",
+			this.handleContentChanged_
+		);
+		this.on(
+			this.contentPlayer,
+			"readyforpreroll",
+			this.handleContentReadyForPreroll_
+		);
+		this.on(
+			this.contentPlayer,
+			"readyforpostroll",
+			this.handleContentReadyForPostroll_
+		);
 	}
 
 	trackImaEvents() {
 		// these events are removed together with tech
-		this.on(this.tech_, 'adsready', this.handleTechAdsReady_);
-		this.on(this.tech_, 'adchange', this.handleTechAdChange_);
-		this.on(this.tech_, 'linearadstarted', this.handleTechLinearAdStarted_);
-		this.on(this.tech_, 'linearadended', this.handleTechLinearAdEnded_);
-		this.on(this.tech_, 'nonlinearadstarted', this.handleTechNonLinearAdStarted_);
-		this.on(this.tech_, 'nonlinearadended', this.handleTechNonLinearAdEnded_);
-		this.on(this.tech_, 'adserror', this.handleTechAdsError_);
+		this.on(this.tech_, "adsready", this.handleTechAdsReady_);
+		this.on(this.tech_, "adchange", this.handleTechAdChange_);
+		this.on(this.tech_, "linearadstarted", this.handleTechLinearAdStarted_);
+		this.on(this.tech_, "linearadended", this.handleTechLinearAdEnded_);
+		this.on(
+			this.tech_,
+			"nonlinearadstarted",
+			this.handleTechNonLinearAdStarted_
+		);
+		this.on(
+			this.tech_,
+			"nonlinearadended",
+			this.handleTechNonLinearAdEnded_
+		);
+		this.on(this.tech_, "adserror", this.handleTechAdsError_);
 	}
 
 	setContentPlayerToDefault() {
@@ -164,16 +196,15 @@ class ImaPlayer extends Player {
 	}
 
 	getContentTechElement() {
+		if (!this.contentPlayer.tech_ || !this.contentPlayer.tech_.el_) {
+			return;
+		}
 		if (this.contentPlayer.techName_ !== "Html5") {
-			if (!this.contentPlayer.tech_.el_.canPlayType) {
-				this.contentPlayer.tech_.el_.canPlayType = () => false;
-			}
-			if (!this.contentPlayer.tech_.el_.pause) {
-				this.contentPlayer.tech_.el_.pause = () => false;
-			}
-			if (!this.contentPlayer.tech_.el_.play) {
-				this.contentPlayer.tech_.el_.play = () => false;
-			}
+			["canPlayType", "play", "pause"].forEach((method) => {
+				if (!this.contentPlayer.tech_.el_[method]) {
+					this.contentPlayer.tech_.el_[method] = () => false;
+				}
+			});
 		}
 		return this.contentPlayer.tech_.el_;
 	}
@@ -183,7 +214,7 @@ class ImaPlayer extends Player {
 			this.controlBar.imaRemainingTimeDisplay.hide();
 			return;
 		}
-		this.controlBar.imaRemainingTimeDisplay.show()
+		this.controlBar.imaRemainingTimeDisplay.show();
 	}
 
 	/* IMA PLAYER METHODS USABLE FROM GLOBAL SPACE (PUBLIC) */
@@ -231,7 +262,7 @@ class ImaPlayer extends Player {
 		if (this.noPreroll) {
 			this.skipLinearAdMode();
 		}
-		this.techCall_('preroll');
+		this.techCall_("preroll");
 		this.noPreroll = true;
 	}
 
@@ -242,35 +273,40 @@ class ImaPlayer extends Player {
 		}
 		if (!this.contentEnded) {
 			this.contentEnded = true;
-			this.techCall_('postroll');
+			this.techCall_("postroll");
 		}
 		this.noPostroll = true;
 	}
 
 	handleContentChanged_() {
 		this.setContentPlayerToDefault();
+		this.imaOptions.contentMediaElement = this.getContentTechElement();
+		if (!this.imaOptions.contentMediaElement) {
+			return;
+		}
 		this.contentEnded = false;
 		this.noPreroll = false;
 		this.noPostroll = false;
 		this.adsReadyTriggered = false;
-		this.imaOptions.contentMediaElement = this.getContentTechElement();
 		this.src(this.imaOptions);
 		this.setRemainingTimeVisibility();
 	}
 
 	handleContentTimeUpdate_() {
 		this.ready(() => {
-			this.tech_.contentTracker.previousTime = this.tech_.contentTracker.currentTime;
-			this.tech_.contentTracker.currentTime = this.contentPlayer.currentTime();
+			this.tech_.contentTracker.previousTime =
+				this.tech_.contentTracker.currentTime;
+			this.tech_.contentTracker.currentTime =
+				this.contentPlayer.currentTime();
 		});
 	}
 
 	handleContentResize_() {
 		this.isFullscreen(this.contentPlayer.isFullscreen());
-		this.techCall_('resize',{
+		this.techCall_("resize", {
 			width: this.contentPlayer.currentWidth(),
 			height: this.contentPlayer.currentHeight(),
-			fullscreen: this.isFullscreen()
+			fullscreen: this.isFullscreen(),
 		});
 	}
 
@@ -286,7 +322,7 @@ class ImaPlayer extends Player {
 		});
 	}
 
-	handleContentSeekEnd_() {
+	handleContentSeeked_() {
 		this.ready(() => {
 			this.tech_.contentTracker.seeking = false;
 		});
@@ -299,7 +335,7 @@ class ImaPlayer extends Player {
 		this.noPostroll = !cuePoints || !cuePoints.includes(-1);
 		if (!this.adsReadyTriggered) {
 			this.adsReadyTriggered = true;
-			this.contentPlayer.trigger('adsready');
+			this.contentPlayer.trigger("adsready");
 		}
 	}
 
@@ -316,7 +352,7 @@ class ImaPlayer extends Player {
 		this.volume(this.contentPlayer.volume());
 		this.muted(this.contentPlayer.muted());
 		this.contentPlayer.ads.startLinearAdMode();
-		this.contentPlayer.trigger('ads-ad-started');
+		this.contentPlayer.trigger("ads-ad-started");
 		this.setContentControls(false);
 		this.controls(isControlsAllowed);
 		this.pauseContent();
@@ -327,7 +363,7 @@ class ImaPlayer extends Player {
 		if (this.contentPlayer.ads.inAdBreak()) {
 			this.contentPlayer.volume(this.volume());
 			this.contentPlayer.muted(this.muted());
-			this.contentPlayer.ads.endLinearAdMode()
+			this.contentPlayer.ads.endLinearAdMode();
 		} else {
 			// covers silent errors like skippable on IOS
 			this.skipLinearAdMode();
@@ -341,21 +377,21 @@ class ImaPlayer extends Player {
 
 	handleTechNonLinearAdStarted_() {
 		this.controls(false);
-		this.contentPlayer.addClass('non-linear-ad');
+		this.contentPlayer.addClass("non-linear-ad");
 		this.show();
 	}
 
 	handleTechNonLinearAdEnded_() {
-		this.contentPlayer.removeClass('non-linear-ad');
+		this.contentPlayer.removeClass("non-linear-ad");
 		this.hide();
 	}
 
 	handleTechAdsError_() {
 		this.hide();
-		this.removeClass('waiting');
+		this.removeClass("waiting");
 		this.reset();
 	}
 }
 
 // registers player as normal component
-videojs.registerComponent('imaPlayer', ImaPlayer);
+videojs.registerComponent("imaPlayer", ImaPlayer);
