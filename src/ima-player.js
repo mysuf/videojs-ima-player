@@ -235,10 +235,6 @@ class ImaPlayer extends Player {
 		this.contentPlayer.ads.contentSrc = "";
 	}
 
-	forceSkip() {
-		this.techCall_("forceSkip");
-	}
-
 	/* THESE METHODS CONTROLS CONTENT PLAYER */
 
 	resumeContent() {
