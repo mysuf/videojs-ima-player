@@ -1,6 +1,7 @@
 import videojs from "video.js";
 import "./ima-time-display.js";
 import "./ima-tech.js";
+import "./ima-skip-button.js";
 
 const Player = videojs.getComponent("Player");
 
@@ -38,10 +39,15 @@ class ImaPlayer extends Player {
 					"fullscreenToggle",
 				],
 			},
+			skipButton: {
+				skipTime: options.forceSkipTime,
+				skipLabel: options.forceSkipLabel,
+			},
 			children: [
 				"mediaLoader",
 				"loadingSpinner",
 				"controlBar",
+				"skipButton",
 				"errorDisplay",
 			],
 		});

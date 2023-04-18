@@ -521,6 +521,10 @@ class Ima extends Tech {
 		}
 	}
 
+	forceSkip() {
+		return this.isLinearAd() && this.adsManager.discardAdBreak();
+	}
+
 	resize(dimensions) {
 		this.width = dimensions.fullscreen
 			? window.screen.width

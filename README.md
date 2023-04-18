@@ -86,7 +86,7 @@ url of VMAP/VAST/VPAID resource. REQUIRED IF adsResponse IS NOT PROVIDED.
 response in VMAP/VAST/VPAID form. REQUIRED IF adTagUrl IS NOT PROVIDED.
 
 **`adLabel`** *(string)*  
-Translation for text: "Advertisement". Default: "Advertisement"
+Optional translation for text: "Advertisement". Default: "Advertisement"
 
 **`adsRenderingSettings`** *(Object)*  
 [IMA SDK ad rendering settings](https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdsRenderingSettings)
@@ -122,7 +122,7 @@ Sets height of non-linear ads. Default: 1/3 of content player height
 Maximum number of VAST redirects. Default: IMA SDK default
 
 **`ofLabel`** *(string)*  
-Translation for text "of" (e.g. "1 of 2"). Default: of"
+Optional translation for text "of" (e.g. "1 of 2"). Default: of"
 
 **`showControlsForJSAds`** (boolean)  
 Enables controls for VPAID JavaScript ads. Default: true
@@ -136,6 +136,11 @@ contrib-ads hard timeout for loading preroll/postroll ads. Default: 5000
 **`vpaidMode`** *(VpaidMode)*  
 [google.ima.ImaSdkSettings.VpaidMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.ImaSdkSettings.VpaidMode). Default: ENABLED
 
+**`forceSkipTime`** *(number)*  
+If not skippable, show skip button from provided timestamp (seconds). Default: undefined
+
+**`forceSkipLabel`** *(string)*  
+Optional translation for text "Skip Ad", Default: "Skip Ad"
 
 Disabled ad autoplay
 --------------------
