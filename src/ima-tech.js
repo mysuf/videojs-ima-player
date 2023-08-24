@@ -552,10 +552,18 @@ class Ima extends Tech {
 	}
 
 	onAdError(e, source) {
-		var type = (source || "Ad") + " error: ";
-		var msg =
-			e.getError !== undefined ? e.getError().getMessage() : e.stack;
-		console.warn("VIDEOJS: " + type + msg);
+		const type = `${source || "Ad"} error`;
+		console.warn(
+			`VIDEOJS: ${type}: ${e.getError?.().getMessage?.() || e.stack}`
+		);
+		const innerError = e.getError?.().getInnerError?.();
+		if (innerError) {
+			console.warn(
+				`VIDEOJS: InnerAdError: ${
+					innerError.getMessage?.() || innerError.stack
+				}`
+			);
+		}
 		this.trigger("adserror");
 	}
 
