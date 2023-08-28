@@ -66,6 +66,7 @@ class ImaPlayer extends Player {
 
 		// through events we have these values up to date
 		// and exposed for component imaRemainingTimeDisplay
+		this.contentVideoElement = null;
 		this.adPosition = 0;
 		this.totalAds = 0;
 		this.adsReadyTriggered = false;
@@ -76,6 +77,19 @@ class ImaPlayer extends Player {
 		// we wont toggle content player controls if controls disabled
 		this.contentControlsDisabled = !contentPlayer.controls();
 		this.contentPlayer = contentPlayer;
+		// setting src directly on video element bypasses player's techs
+		// and creates issues when it should switch tech, f.e. HLS <-> HTML5
+		// this watch changing of src and redirects to player api (IOS)
+		this.srcObserver = new MutationObserver(function (mutations) {
+			mutations.forEach(function (mutation) {
+				if (
+					mutation.target[mutation.attributeName] !==
+					mutation.oldValue
+				) {
+					contentPlayer.src(mutation.target[mutation.attributeName]);
+				}
+			});
+		});
 
 		this.isMobile = videojs.browser.IS_IOS || videojs.browser.IS_ANDROID;
 		if (this.isMobile) this.addClass("vjs-ima-mobile");
@@ -85,13 +99,15 @@ class ImaPlayer extends Player {
 
 		// wait a tick to get content info
 		contentPlayer.ready(() => {
-			const mediaElement = this.getContentTechElement();
-			if (!mediaElement) {
+			this.contentVideoElement = this.getContentTechElement();
+
+			if (!this.contentVideoElement) {
 				return;
 			}
+
 			this.tech_.handleLateInit_({
 				imaPlayer: this,
-				mediaElement,
+				mediaElement: this.contentVideoElement,
 				width: contentPlayer.currentWidth(),
 				height: contentPlayer.currentHeight(),
 				volume: contentPlayer.volume(),
@@ -358,6 +374,12 @@ class ImaPlayer extends Player {
 		this.volume(this.contentPlayer.volume());
 		this.muted(this.contentPlayer.muted());
 		this.contentPlayer.ads.startLinearAdMode();
+		this.contentVideoElement &&
+			this.srcObserver.observe(this.contentVideoElement, {
+				attributes: true,
+				attributeFilter: ["src"],
+				attributeOldValue: true,
+			});
 		this.contentPlayer.trigger("ads-ad-started");
 		this.setContentControls(false);
 		this.controls(isControlsAllowed);
@@ -366,6 +388,7 @@ class ImaPlayer extends Player {
 	}
 
 	handleTechLinearAdEnded_() {
+		this.srcObserver.disconnect();
 		if (this.contentPlayer.ads.inAdBreak()) {
 			this.contentPlayer.volume(this.volume());
 			this.contentPlayer.muted(this.muted());

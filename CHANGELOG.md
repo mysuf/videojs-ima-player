@@ -1,3 +1,23 @@
+## 0.6.4
+
+* settings video src directly on IOS handled by player, fixes content HLS errors
+
+## 0.6.3
+
+* fixed vulnerabs, better logging of ima errors
+
+## 0.6.2
+
+* force skip button
+
+## 0.6.1
+
+* updated deps, fixed minor undefined error
+
+## 0.5.6
+
+* better handling of late init
+
 ## 0.5.5
 
 * fixed unresponsive volume ad controls with moatwrapper
