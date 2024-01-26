@@ -37,12 +37,18 @@ class SkipButton extends Component {
 		const player = this.player();
 		const currentAdSkipOffset =
 			player.tech_?.currentAd?.getSkipTimeOffset() ?? -1;
+		// fix videojs or browser bug where currentTime() on init shows greater value than duration itself
+		const currentTime = player.currentTime();
+		const duration = player.duration();
 		return (
 			!this.active &&
 			(currentAdSkipOffset < 0 ||
 				currentAdSkipOffset > this.options_.skipTime) &&
-			player.duration() - this.options_.skipTime > 5 &&
-			player.currentTime() > this.options_.skipTime
+			currentTime &&
+			duration &&
+			currentTime < duration &&
+			duration - this.options_.skipTime > 5 &&
+			currentTime > this.options_.skipTime
 		);
 	}
 

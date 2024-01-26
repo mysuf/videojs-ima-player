@@ -1,3 +1,7 @@
+## 0.6.5
+
+* fixed videojs/browser bug where sometimes value of currentTime() is greater than duration()
+
 ## 0.6.4
 
 * settings video src directly on IOS handled by player, fixes content HLS errors
