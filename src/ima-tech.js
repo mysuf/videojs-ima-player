@@ -15,6 +15,7 @@ class Ima extends Tech {
 		};
 
 		this.currentAd = null;
+		this.cuePoints = [];
 		this.source = options.source;
 		this.adDisplayContainer = null;
 		this.adsLoader = null;
@@ -237,16 +238,12 @@ class Ima extends Tech {
 	load() {}
 
 	reset() {
-		if (this.adsManager) {
-			//Dispose of the IMA SDK
-			this.adsManager.stop();
-			this.adsManager.destroy();
-			this.adsManager = null;
-		}
-		if (!this.contentCompleted_) {
-			this.onContentCompleted();
-		}
+		//Dispose of the IMA SDK
+		this.adsManager?.stop();
+		this.adsManager?.destroy();
+		this.adsManager = null;
 		this.err = null;
+		this.cuePoints = [];
 		this.currentAd = null;
 		this.muted_ = false;
 		this.ended_ = false;
@@ -255,14 +252,14 @@ class Ima extends Tech {
 		this.contentTracker.currentTime = 0;
 		this.contentTracker.duration = 0;
 		this.contentTracker.seeking = false;
-		(this.adsLoader && this.adsLoader.destroy()) || "";
+		this.adsLoader?.destroy();
 		this.adsLoader = null;
-		(this.adDisplayContainer && this.adDisplayContainer.destroy()) || "";
+		this.adDisplayContainer?.destroy();
 		this.adDisplayContainer = null;
 	}
 
 	dispose() {
-		this.reset(true);
+		this.reset();
 		this.player_ = null; // allow object to be GCed
 
 		//Needs to be called after the IMA SDK is destroyed, otherwise there will be a null reference exception
@@ -510,7 +507,7 @@ class Ima extends Tech {
 		this.contentHasStarted_ = true;
 		if (this.adsManager) {
 			this.initAdsManager();
-			(this.autoplay() && this.play()) || "";
+			this.autoplay() && this.play();
 		}
 	}
 
@@ -522,7 +519,17 @@ class Ima extends Tech {
 	}
 
 	forceSkip() {
-		return this.isLinearAd() && this.adsManager.discardAdBreak();
+		if (!this.isLinearAd()) {
+			return;
+		}
+
+		if (this.adsManager.getAdSkippableState()) {
+			return this.adsManager.skip();
+		}
+
+		this.adsManager.discardAdBreak();
+
+		!this.cuePoints.length && this.reset();
 	}
 
 	resize(dimensions) {
@@ -569,7 +576,8 @@ class Ima extends Tech {
 
 	onAdsManagerLoaded(e) {
 		this.setAdsManager(e);
-		this.trigger("adsready", this.adsManager.getCuePoints());
+		this.cuePoints = this.adsManager.getCuePoints();
+		this.trigger("adsready", this.cuePoints);
 	}
 
 	onAdLoaded(e) {
@@ -673,7 +681,7 @@ class Ima extends Tech {
 	onVolumeMuted() {}
 
 	onContentCompleted() {
-		(this.adsLoader && this.adsLoader.contentComplete()) || "";
+		return this.adsLoader?.contentComplete();
 	}
 
 	onAdEvent(callback, e) {
