@@ -12,11 +12,11 @@
        var googletag = googletag || {};
        googletag.cmd = googletag.cmd || [];
        (function() {
-         var gads = document.createElement('script');
+         const gads = document.createElement('script');
          gads.async = true;
          gads.type = 'text/javascript';
          gads.src = '//www.googletagservices.com/tag/js/gpt.js';
-         var node = document.getElementsByTagName('script')[0];
+         const node = document.getElementsByTagName('script')[0];
          node.parentNode.insertBefore(gads, node);
        })();
      </script>
@@ -81,8 +81,5 @@
     <script src="../../node_modules/videojs-contrib-ads/dist/videojs.ads.min.js"></script>
     <script src="../../dist/videojs.ima.js"></script>
     <script src="ads.js"></script>
-    <script type="text/javascript">
-      var ads = new Ads();
-    </script>
   </body>
 </html>

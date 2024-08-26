@@ -1,5 +1,5 @@
-import config from "./base.config.js";
-import { terser } from "rollup-plugin-terser";
+import config from "./base.config.mjs";
+import terser from "@rollup/plugin-terser";
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";

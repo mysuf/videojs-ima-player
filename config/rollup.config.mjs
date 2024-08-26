@@ -1,4 +1,4 @@
-import config from "./base.config.js";
+import config from "./base.config.mjs";
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 
