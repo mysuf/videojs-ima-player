@@ -25,6 +25,7 @@ class Ima extends Tech {
 		this.screenMode = "";
 		this.volume_ = 1;
 		this.muted_ = false;
+		this.currentTime_ = 0;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
@@ -162,13 +163,12 @@ class Ima extends Tech {
 	}
 
 	currentTime() {
-		let currentTime = this.adsManager
-			? this.duration() - this.adsManager.getRemainingTime()
-			: 0;
-		return currentTime > 0 ? currentTime : 0;
+		return this.currentTime_;
 	}
 
-	setCurrentTime() {}
+	setCurrentTime(seconds) {
+		this.currentTime_ = seconds ?? 0;
+	}
 
 	seeking() {
 		return false;
@@ -245,6 +245,7 @@ class Ima extends Tech {
 		this.err = null;
 		this.cuePoints = [];
 		this.currentAd = null;
+		this.currentTime_ = 0;
 		this.muted_ = false;
 		this.ended_ = false;
 		this.paused_ = false;
@@ -413,6 +414,10 @@ class Ima extends Tech {
 			google.ima.AdEvent.Type.VOLUME_MUTED,
 			this.onAdEvent.bind(this, this.onVolumeMuted)
 		);
+		this.adsManager.addEventListener(
+			google.ima.AdEvent.Type.AD_PROGRESS,
+			this.onAdEvent.bind(this, this.onAdProgress)
+		);
 
 		// additional events retriggered to ima player
 		this.adsManager.addEventListener(
@@ -527,9 +532,13 @@ class Ima extends Tech {
 			return this.adsManager.skip();
 		}
 
-		this.adsManager.discardAdBreak();
+		if (!this.cuePoints.length) {
+			this.reset();
+			this.onContentResumeRequested();
+			return;
+		}
 
-		!this.cuePoints.length && this.reset();
+		this.adsManager.discardAdBreak();
 	}
 
 	resize(dimensions) {
@@ -667,6 +676,12 @@ class Ima extends Tech {
 		this.trigger("pause");
 	}
 
+	onAdProgress(e) {
+		const { currentTime } = e.getAdData();
+		this.currentTime_ = currentTime ?? 0;
+		this.trigger({ type: "timeupdate", target: this });
+	}
+
 	onAdResumed() {
 		this.paused_ = false;
 		this.trigger("play");
@@ -696,6 +711,8 @@ class Ima extends Tech {
 		return this.adsManager && this.currentAd && this.currentAd.isLinear();
 	}
 }
+
+Ima.prototype.featuresTimeupdateEvents = true;
 
 Ima.isSupported = function () {
 	return true;
