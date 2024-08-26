@@ -3,21 +3,17 @@ const onAdErrorEvent = function (event) {
 };
 
 const adTags = {
-	linear: "http://localhost:8000/test/webdriver/content/canned_ads/linear.xml",
+	linear: "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=",
 	skippable:
-		"http://localhost:8000/test/webdriver/content/canned_ads/" +
-		"skippable_linear.xml",
+		"https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=",
 	vmap_preroll:
-		"http://localhost:8000/test/webdriver/content/canned_ads/" +
-		"vmap_preroll.xml",
-	vmap_midroll:
-		"http://localhost:8000/test/webdriver/content/canned_ads/" +
-		"vmap_midroll.xml",
+		"https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/vmap_ad_samples&sz=640x480&cust_params=sample_ar%3Dpreonly&ciu_szs=300x250%2C728x90&gdfp_req=1&ad_rule=1&output=vmap&unviewed_position_start=1&env=vp&impl=s&correlator=",
+	vmap_postroll:
+		"https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/vmap_ad_samples&sz=640x480&cust_params=sample_ar%3Dpostonly&ciu_szs=300x250&gdfp_req=1&ad_rule=1&output=vmap&unviewed_position_start=1&env=vp&impl=s&correlator=",
 	nonlinear:
-		"http://localhost:8000/test/webdriver/content/canned_ads/" +
-		"nonlinear.xml",
+		"https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/nonlinear_ad_samples&sz=480x70&cust_params=sample_ct%3Dnonlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=",
 	error_303:
-		"http://localhost:8000/test/webdriver/content/canned_ads/empty_wrapper.xml",
+		"https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dredirecterror&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=",
 };
 
 const searchParams = new URLSearchParams(location.search);
