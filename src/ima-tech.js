@@ -15,6 +15,7 @@ class Ima extends Tech {
 		};
 
 		this.currentAd = null;
+		this.cuePoints = [];
 		this.source = options.source;
 		this.adDisplayContainer = null;
 		this.adsLoader = null;
@@ -24,6 +25,7 @@ class Ima extends Tech {
 		this.screenMode = "";
 		this.volume_ = 1;
 		this.muted_ = false;
+		this.currentTime_ = 0;
 
 		// initialized later via handleLateInit_ method
 		// called by ImaPlayer
@@ -161,13 +163,12 @@ class Ima extends Tech {
 	}
 
 	currentTime() {
-		let currentTime = this.adsManager
-			? this.duration() - this.adsManager.getRemainingTime()
-			: 0;
-		return currentTime > 0 ? currentTime : 0;
+		return this.currentTime_;
 	}
 
-	setCurrentTime() {}
+	setCurrentTime(seconds) {
+		this.currentTime_ = seconds ?? 0;
+	}
 
 	seeking() {
 		return false;
@@ -237,17 +238,14 @@ class Ima extends Tech {
 	load() {}
 
 	reset() {
-		if (this.adsManager) {
-			//Dispose of the IMA SDK
-			this.adsManager.stop();
-			this.adsManager.destroy();
-			this.adsManager = null;
-		}
-		if (!this.contentCompleted_) {
-			this.onContentCompleted();
-		}
+		//Dispose of the IMA SDK
+		this.adsManager?.stop();
+		this.adsManager?.destroy();
+		this.adsManager = null;
 		this.err = null;
+		this.cuePoints = [];
 		this.currentAd = null;
+		this.currentTime_ = 0;
 		this.muted_ = false;
 		this.ended_ = false;
 		this.paused_ = false;
@@ -255,14 +253,14 @@ class Ima extends Tech {
 		this.contentTracker.currentTime = 0;
 		this.contentTracker.duration = 0;
 		this.contentTracker.seeking = false;
-		(this.adsLoader && this.adsLoader.destroy()) || "";
+		this.adsLoader?.destroy();
 		this.adsLoader = null;
-		(this.adDisplayContainer && this.adDisplayContainer.destroy()) || "";
+		this.adDisplayContainer?.destroy();
 		this.adDisplayContainer = null;
 	}
 
 	dispose() {
-		this.reset(true);
+		this.reset();
 		this.player_ = null; // allow object to be GCed
 
 		//Needs to be called after the IMA SDK is destroyed, otherwise there will be a null reference exception
@@ -416,6 +414,10 @@ class Ima extends Tech {
 			google.ima.AdEvent.Type.VOLUME_MUTED,
 			this.onAdEvent.bind(this, this.onVolumeMuted)
 		);
+		this.adsManager.addEventListener(
+			google.ima.AdEvent.Type.AD_PROGRESS,
+			this.onAdEvent.bind(this, this.onAdProgress)
+		);
 
 		// additional events retriggered to ima player
 		this.adsManager.addEventListener(
@@ -510,7 +512,7 @@ class Ima extends Tech {
 		this.contentHasStarted_ = true;
 		if (this.adsManager) {
 			this.initAdsManager();
-			(this.autoplay() && this.play()) || "";
+			this.autoplay() && this.play();
 		}
 	}
 
@@ -519,6 +521,24 @@ class Ima extends Tech {
 			this.contentCompleted_ = true;
 			this.onContentCompleted();
 		}
+	}
+
+	forceSkip() {
+		if (!this.isLinearAd()) {
+			return;
+		}
+
+		if (this.adsManager.getAdSkippableState()) {
+			return this.adsManager.skip();
+		}
+
+		if (!this.cuePoints.length) {
+			this.reset();
+			this.onContentResumeRequested();
+			return;
+		}
+
+		this.adsManager.discardAdBreak();
 	}
 
 	resize(dimensions) {
@@ -548,16 +568,25 @@ class Ima extends Tech {
 	}
 
 	onAdError(e, source) {
-		var type = (source || "Ad") + " error: ";
-		var msg =
-			e.getError !== undefined ? e.getError().getMessage() : e.stack;
-		console.warn("VIDEOJS: " + type + msg);
+		const type = `${source || "Ad"} error`;
+		console.warn(
+			`VIDEOJS: ${type}: ${e.getError?.().getMessage?.() || e.stack}`
+		);
+		const innerError = e.getError?.().getInnerError?.();
+		if (innerError) {
+			console.warn(
+				`VIDEOJS: InnerAdError: ${
+					innerError.getMessage?.() || innerError.stack
+				}`
+			);
+		}
 		this.trigger("adserror");
 	}
 
 	onAdsManagerLoaded(e) {
 		this.setAdsManager(e);
-		this.trigger("adsready", this.adsManager.getCuePoints());
+		this.cuePoints = this.adsManager.getCuePoints();
+		this.trigger("adsready", this.cuePoints);
 	}
 
 	onAdLoaded(e) {
@@ -647,6 +676,12 @@ class Ima extends Tech {
 		this.trigger("pause");
 	}
 
+	onAdProgress(e) {
+		const { currentTime } = e.getAdData();
+		this.currentTime_ = currentTime ?? 0;
+		this.trigger({ type: "timeupdate", target: this });
+	}
+
 	onAdResumed() {
 		this.paused_ = false;
 		this.trigger("play");
@@ -661,7 +696,7 @@ class Ima extends Tech {
 	onVolumeMuted() {}
 
 	onContentCompleted() {
-		(this.adsLoader && this.adsLoader.contentComplete()) || "";
+		return this.adsLoader?.contentComplete();
 	}
 
 	onAdEvent(callback, e) {
@@ -676,6 +711,8 @@ class Ima extends Tech {
 		return this.adsManager && this.currentAd && this.currentAd.isLinear();
 	}
 }
+
+Ima.prototype.featuresTimeupdateEvents = true;
 
 Ima.isSupported = function () {
 	return true;
