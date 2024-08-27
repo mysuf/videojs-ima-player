@@ -1,4 +1,7 @@
 *
+.*
+!README.md
+!.gitignore
 !examples/
 !dist/
 !index.html
