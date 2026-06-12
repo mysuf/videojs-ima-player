@@ -1,6 +1,6 @@
 {
   "name": "videojs-ima-player",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "license": "MIT",
   "main": "./dist/videojs.ima.js",
   "author": {
