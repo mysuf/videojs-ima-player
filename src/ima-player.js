@@ -154,8 +154,6 @@ class ImaPlayer extends Player {
 	// there are aditional jobs that needs to be done
 	reset() {
 		this.setContentPlayerToDefault();
-		this.noPreroll = false;
-		this.noPostroll = false;
 		super.reset.call(this);
 		this.handleTechAdsReady_();
 	}
@@ -168,28 +166,28 @@ class ImaPlayer extends Player {
 		this.on(
 			this.contentPlayer,
 			"durationchange",
-			this.handleContentDurationChange_
+			this.handleContentDurationChange_,
 		);
 		this.on(
 			this.contentPlayer,
 			"timeupdate",
-			this.handleContentTimeUpdate_
+			this.handleContentTimeUpdate_,
 		);
 		this.on(this.contentPlayer, this.resizeType, this.handleContentResize_);
 		this.on(
 			this.contentPlayer,
 			"contentupdate",
-			this.handleContentChanged_
+			this.handleContentChanged_,
 		);
 		this.on(
 			this.contentPlayer,
 			"readyforpreroll",
-			this.handleContentReadyForPreroll_
+			this.handleContentReadyForPreroll_,
 		);
 		this.on(
 			this.contentPlayer,
 			"readyforpostroll",
-			this.handleContentReadyForPostroll_
+			this.handleContentReadyForPostroll_,
 		);
 	}
 
@@ -202,12 +200,12 @@ class ImaPlayer extends Player {
 		this.on(
 			this.tech_,
 			"nonlinearadstarted",
-			this.handleTechNonLinearAdStarted_
+			this.handleTechNonLinearAdStarted_,
 		);
 		this.on(
 			this.tech_,
 			"nonlinearadended",
-			this.handleTechNonLinearAdEnded_
+			this.handleTechNonLinearAdEnded_,
 		);
 		this.on(this.tech_, "adserror", this.handleTechAdsError_);
 	}
@@ -420,7 +418,7 @@ class ImaPlayer extends Player {
 
 	handleTechAdsError_() {
 		this.hide();
-		this.removeClass("waiting");
+		this.removeClass("vjs-waiting");
 		this.reset();
 	}
 }

@@ -21,7 +21,7 @@ class Ima extends Tech {
 		this.adsLoader = null;
 		this.adsManager = null;
 		this.width = 0;
-		this.heght = 0;
+		this.height = 0;
 		this.screenMode = "";
 		this.volume_ = 1;
 		this.muted_ = false;
@@ -56,7 +56,7 @@ class Ima extends Tech {
 					loadVideoTimeout: options.timeout || 5000,
 				},
 			},
-			options
+			options,
 		);
 	}
 
@@ -201,7 +201,7 @@ class Ima extends Tech {
 		clearTimeout(this.volTimeout);
 		this.volTimeout = setTimeout(
 			() => this.adsManager && this.adsManager.setVolume(vol),
-			250
+			250,
 		);
 	}
 
@@ -209,7 +209,6 @@ class Ima extends Tech {
 		if (vol === this.volume_) return;
 
 		this.volume_ = vol;
-		this.muted_ = !vol;
 		this.trigger("volumechange");
 		this.setManagerVolume(vol);
 	}
@@ -219,7 +218,7 @@ class Ima extends Tech {
 	}
 
 	setMuted(mute) {
-		if (mute == this.muted_) return;
+		if (mute === this.muted_) return;
 
 		this.muted_ = mute;
 		this.trigger("volumechange");
@@ -257,6 +256,8 @@ class Ima extends Tech {
 		this.adsLoader = null;
 		this.adDisplayContainer?.destroy();
 		this.adDisplayContainer = null;
+		this.contentCompleted_ = false;
+		this.contentHasStarted_ = false;
 	}
 
 	dispose() {
@@ -283,7 +284,7 @@ class Ima extends Tech {
 	initAdContainer() {
 		this.adDisplayContainer = new google.ima.AdDisplayContainer(
 			this.el_,
-			this.source.contentMediaElement
+			this.source.contentMediaElement,
 		);
 		this.setAdsLoader();
 	}
@@ -303,7 +304,7 @@ class Ima extends Tech {
 		this.adsLoader
 			.getSettings()
 			.setDisableCustomPlaybackForIOS10Plus(
-				this.source.disableCustomPlaybackForIOS10Plus
+				this.source.disableCustomPlaybackForIOS10Plus,
 			);
 		this.adsLoader.getSettings().setVpaidMode(this.source.vpaidMode);
 		this.adsLoader.getSettings().setNumRedirects(this.source.numRedirects);
@@ -316,12 +317,12 @@ class Ima extends Tech {
 		this.adsLoader.addEventListener(
 			google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
 			this.onAdEvent.bind(this, this.onAdsManagerLoaded),
-			false
+			false,
 		);
 		this.adsLoader.addEventListener(
 			google.ima.AdErrorEvent.Type.AD_ERROR,
 			this.onAdEvent.bind(this, this.onAdsLoaderError),
-			false
+			false,
 		);
 	}
 
@@ -353,116 +354,116 @@ class Ima extends Tech {
 		//this.adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete = true;
 		Object.assign(
 			this.adsRenderingSettings,
-			this.source.adsRenderingSettings || {}
+			this.source.adsRenderingSettings || {},
 		);
 
 		this.adsManager = e.getAdsManager(
 			this.contentTracker,
-			this.adsRenderingSettings
+			this.adsRenderingSettings,
 		);
 
 		this.adsManager.addEventListener(
 			google.ima.AdErrorEvent.Type.AD_ERROR,
-			this.onAdEvent.bind(this, this.onAdError)
+			this.onAdEvent.bind(this, this.onAdError),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED,
-			this.onAdEvent.bind(this, this.onContentPauseRequested)
+			this.onAdEvent.bind(this, this.onContentPauseRequested),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
-			this.onAdEvent.bind(this, this.onContentResumeRequested)
+			this.onAdEvent.bind(this, this.onContentResumeRequested),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
-			this.onAdEvent.bind(this, this.onAllAdsCompleted)
+			this.onAdEvent.bind(this, this.onAllAdsCompleted),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.LOADED,
-			this.onAdEvent.bind(this, this.onAdLoaded)
+			this.onAdEvent.bind(this, this.onAdLoaded),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.STARTED,
-			this.onAdEvent.bind(this, this.onAdStarted)
+			this.onAdEvent.bind(this, this.onAdStarted),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.CLICK,
-			this.onAdEvent.bind(this, this.onAdClick)
+			this.onAdEvent.bind(this, this.onAdClick),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.COMPLETE,
-			this.onAdEvent.bind(this, this.onAdComplete)
+			this.onAdEvent.bind(this, this.onAdComplete),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.SKIPPED,
-			this.onAdEvent.bind(this, this.onAdSkipped)
+			this.onAdEvent.bind(this, this.onAdSkipped),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.PAUSED,
 			// we wont mix player's pause event with this
-			this.onAdPaused.bind(this)
+			this.onAdPaused.bind(this),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.RESUMED,
-			this.onAdEvent.bind(this, this.onAdResumed)
+			this.onAdEvent.bind(this, this.onAdResumed),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.VOLUME_CHANGED,
-			this.onAdEvent.bind(this, this.onVolumeChanged)
+			this.onAdEvent.bind(this, this.onVolumeChanged),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.VOLUME_MUTED,
-			this.onAdEvent.bind(this, this.onVolumeMuted)
+			this.onAdEvent.bind(this, this.onVolumeMuted),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_PROGRESS,
-			this.onAdEvent.bind(this, this.onAdProgress)
+			this.onAdEvent.bind(this, this.onAdProgress),
 		);
 
 		// additional events retriggered to ima player
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_BREAK_READY,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.AD_METADATA,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.FIRST_QUARTILE,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.IMPRESSION,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.INTERACTION,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.LINEAR_CHANGED,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.LOG,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.SKIPPABLE_STATE_CHANGED,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.MIDPOINT,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.THIRD_QUARTILE,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 		this.adsManager.addEventListener(
 			google.ima.AdEvent.Type.USER_CLOSE,
-			this.onAdEvent.bind(this, null)
+			this.onAdEvent.bind(this, null),
 		);
 
 		this.triggerReady();
@@ -480,7 +481,7 @@ class Ima extends Tech {
 
 	start() {
 		if (this.currentAd) {
-			console.war("Ad warning: ad is already playing");
+			console.warn("Ad warning: ad is already playing");
 			return;
 		}
 
@@ -559,7 +560,7 @@ class Ima extends Tech {
 
 	onOptionsChanged(options) {
 		if (options) {
-			this.options_ = Object.assign(this.source, options);
+			this.source = Object.assign({}, this.source, options);
 		}
 	}
 
@@ -570,14 +571,14 @@ class Ima extends Tech {
 	onAdError(e, source) {
 		const type = `${source || "Ad"} error`;
 		console.warn(
-			`VIDEOJS: ${type}: ${e.getError?.().getMessage?.() || e.stack}`
+			`VIDEOJS: ${type}: ${e.getError?.().getMessage?.() || e.stack}`,
 		);
 		const innerError = e.getError?.().getInnerError?.();
 		if (innerError) {
 			console.warn(
 				`VIDEOJS: InnerAdError: ${
 					innerError.getMessage?.() || innerError.stack
-				}`
+				}`,
 			);
 		}
 		this.trigger("adserror");
@@ -623,7 +624,7 @@ class Ima extends Tech {
 			this.currentAd.getContentType() === "application/javascript";
 		this.trigger(
 			"linearadstarted",
-			!isJSAd || this.source.showControlsForJSAds
+			!isJSAd || this.source.showControlsForJSAds,
 		);
 		this.trigger("waiting");
 	}
@@ -700,6 +701,7 @@ class Ima extends Tech {
 	}
 
 	onAdEvent(callback, e) {
+		if (!this.player_) return;
 		this.player_.trigger(e);
 		if (typeof callback === "function") {
 			callback.call(this, e);

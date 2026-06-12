@@ -9,7 +9,7 @@ class SkipButton extends Component {
 		this.resetState();
 
 		if (
-			!google?.ima ||
+			!window.google?.ima ||
 			typeof options.skipTime !== "number" ||
 			isNaN(options.skipTime)
 		) {
