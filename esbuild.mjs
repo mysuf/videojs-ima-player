@@ -28,6 +28,7 @@ const base = {
   bundle: true,
   format: "iife",
   target: ["es2018"],
+  logLevel: "info",
   plugins: [globalsPlugin],
 };
 
